@@ -167,8 +167,8 @@
         
         /* สไตล์สำหรับลิงก์ใน Member Card */
         .member-card a {
-            text-decoration: none; /* ลบขีดเส้นใต้ออก */
-            display: block; /* ทำให้ลิงก์ครอบคลุมพื้นที่ทั้งหมดของ div */
+            text-decoration: none; 
+            display: block; 
             width: 100%;
             height: 100%;
             padding: 15px; 
@@ -198,12 +198,13 @@
         /* สไตล์หลักของ Grid และ Card */
         .member-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            /* ** แก้ไขตรงนี้ **: ใช้ minmax(0, 1fr) เพื่อให้การ์ดขยายเต็มความกว้างที่เหลืออยู่เสมอ */
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
             gap: 15px;
         }
         .member-card {
             background-color: var(--card-bg);
-            padding: 0; 
+            padding: 0; /* padding 0 เนื่องจากลิงก์ A จะควบคุม padding แทน */
             text-align: center;
             font-weight: 700;
             text-transform: uppercase;
@@ -268,7 +269,8 @@
             }
 
             .member-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                /* ** แก้ไขตรงนี้ **: เปลี่ยน minmax(150px, 1fr) ใน mobile เป็น minmax(0, 1fr) เพื่อให้ยืดหยุ่น */
+                grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
             }
         }
     </style>
