@@ -1,4 +1,6 @@
-/* ================= SETTINGS (ตั้งค่าสีเดียวกับเดิม) ================= */
+/* ================= 1. SETTINGS & FONTS ================= */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Montserrat:wght@900&display=swap');
+
 :root {
     --primary-color: #ffffff; 
     --dark-bg: #000000;
@@ -6,7 +8,11 @@
     --font-sub: 'Kanit', sans-serif;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: var(--font-sub);
@@ -15,63 +21,64 @@ body {
     height: 100vh;
     overflow: hidden;
     -webkit-user-select: none; user-select: none;
-    position: relative; /* จำเป็นสำหรับ background ใหม่ */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* ================= NEW BACKGROUND EFFECTS (พื้นหลังใหม่สุดเท่) ================= */
+/* ================= 2. BACKGROUND EFFECTS (พื้นหลัง) ================= */
 
-/* 1. ปิดวิดีโอเดิมไปเลย ไม่ใช้แล้ว */
+/* ปิดวิดีโอเดิม */
 #bg-video { display: none; }
 
-/* 2. สร้างพื้นผิว Noise (เม็ดทราย) และ Vignette ให้ดูดุดัน */
+/* Layer 1: Noise (เม็ดทราย) + ขอบมืด */
 body::before {
     content: "";
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -2;
-    /* สร้าง Noise ด้วย SVG filter + ไล่สีขอบมืด */
     background: 
-        radial-gradient(circle at center, transparent 0%, #000 90%), /* ขอบมืด */
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E"); /* Noise จางๆ */
+        radial-gradient(circle at center, transparent 0%, #000 90%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
     background-size: cover, 200px 200px;
     mix-blend-mode: overlay;
     opacity: 1;
 }
 
-/* 3. สร้างลำแสงเคลื่อนไหว (Moving Light Rays) */
+/* Layer 2: แสงไฟเคลื่อนไหว (Moving Lights) */
 body::after {
     content: "";
     position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
     z-index: -3;
-    /* สร้างเส้นแสง 2 เส้นพาดกัน */
     background: 
         linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.03) 48%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 52%, transparent 55%),
         linear-gradient(-45deg, transparent 45%, rgba(255,255,255,0.03) 48%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 52%, transparent 55%);
     background-size: 200% 200%;
-    animation: moveCyberLights 20s linear infinite; /* เคลื่อนที่ช้าๆ */
+    animation: moveCyberLights 20s linear infinite;
 }
 
 @keyframes moveCyberLights {
     0% { background-position: 0% 0%, 0% 0%; transform: rotate(0deg); }
     50% { background-position: 100% 100%, -100% 100%; }
-    100% { background-position: 0% 0%, 0% 0%; transform: rotate(360deg); /* หมุนช้าๆ */ }
+    100% { background-position: 0% 0%, 0% 0%; transform: rotate(360deg); }
 }
 
-/* (ลบ .dark-overlay และ .ambient-light อันเก่าออก เพราะใช้ body::before/after แทนแล้ว) */
-.dark-overlay, .ambient-light { display: none; }
-
-/* 4. สะเก็ดไฟลอย (อันเดิม แต่ปรับให้เข้ากับพื้นหลังใหม่) */
+/* Layer 3: สะเก็ดไฟลอย (Floating Embers) */
 .floating-embers {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -1; overflow: hidden; pointer-events: none;
 }
+
 .floating-embers span {
     position: absolute; bottom: -50px;
-    width: 3px; height: 3px; background: var(--primary-color); /* เล็กลงหน่อย */
+    width: 3px; height: 3px; 
+    background: var(--primary-color);
     border-radius: 50%;
     box-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.4);
-    animation: floatUp linear infinite; opacity: 0;
+    animation: floatUp linear infinite; 
+    opacity: 0;
 }
-/* ตั้งค่าการลอย (เหมือนเดิม) */
+
 .floating-embers span:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
 .floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 4px; height: 4px; }
 .floating-embers span:nth-child(3) { left: 35%; animation-duration: 5s; animation-delay: 4s; }
@@ -87,43 +94,82 @@ body::after {
     100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
 }
 
-/* ================= MAIN CONTENT (เหมือนเดิม) ================= */
+/* ================= 3. CONTENT STYLES (ข้อความ) ================= */
 .hero-section {
-    height: 100vh; display: flex; justify-content: center; align-items: center;
-    text-align: center; z-index: 10; position: relative;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    width: 100%;
 }
-.content-box { padding: 40px; }
 
-/* Main Title: Phawha */
+.content-box {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ชื่อหลัก: PHAWHA */
 .main-title {
     font-family: var(--font-main);
-    font-size: 6rem; font-weight: 900;
-    text-transform: uppercase; letter-spacing: 4px;
+    font-size: 6rem; 
+    font-weight: 900;
+    text-transform: uppercase; 
+    letter-spacing: 5px;
     color: #fff;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
-                 0 0 30px rgba(255, 255, 255, 0.6),
-                 0 0 70px rgba(255, 255, 255, 0.4);
-    margin-bottom: 10px; position: relative;
-    margin-top: 5%; /* ตำแหน่งเดิมที่ขอไว้ */
+    margin: 0;
+    line-height: 1;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+                 0 0 40px rgba(255, 255, 255, 0.4);
 }
 
-/* Subtitle */
+/* สโลแกน: bestoftoxicboys */
 .sub-title {
     font-family: var(--font-sub);
-    font-size: 1.2rem; font-weight: 400;
-    text-transform: uppercase; letter-spacing: 8px;
-    color: var(--primary-color);
-    opacity: 0.8; margin-bottom: 60px;
+    font-size: 1.2rem; 
+    font-weight: 400;
+    text-transform: uppercase; 
+    letter-spacing: 8px;
+    color: #ccc;
+    margin-top: 10px;
+    margin-bottom: 50px;
     text-shadow: 0 0 5px rgba(0,0,0,0.8);
 }
 
-/* ================= CYBER BUTTON (เหมือนเดิม) ================= */
-.btn-container { display: flex; justify-content: center; }
+/* ================= 4. BUTTON STYLE (ปุ่มกด) ================= */
+.btn-container {
+    display: flex;
+    justify-content: center;
+}
 
 .cyber-btn {
     position: relative;
-    text-decoration: none; color: var(--primary-color);
-    font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
-    padding: 15px 50px;
-    background: transparent;
-    border: 2px solid var(--
+    text-decoration: none;
+    color: var(--primary-color);
+    font-family: var(--font-sub);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    padding: 15px 60px;
+    background: rgba(0, 0, 0, 0.3); /* พื้นหลังจางๆ */
+    
+    /* เส้นขอบ */
+    border: 2px solid var(--primary-color);
+    
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+/* เอฟเฟกต์ตอนชี้ปุ่ม */
+.cyber-btn:hover {
+    background: var(--primary-color);
+    color: var(--dark-bg);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 50px rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px) scale(1.02);
+}
+
+.cyber-btn
