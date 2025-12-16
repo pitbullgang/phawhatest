@@ -1,1 +1,169 @@
+/* ================= 1. BASE STYLES ================= */
+:root {
+    --dark-bg: #111111;
+    --card-bg: #1e1e1e;
+    --light-text: #ffffff;
+    --sub-text: #aaaaaa;
+    --neon-blue: #0ff;
+    --neon-gold: #ffcc00;
+}
 
+body {
+    font-family: 'Kanit', sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--light-text);
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+/* ================= 2. HEADER & BANNER ================= */
+.header-banner {
+    padding: 80px 50px 30px;
+    background: #000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--sub-text);
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.back-home-btn:hover {
+    color: var(--light-text);
+    border-color: var(--sub-text);
+}
+
+.main-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: var(--light-text);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--sub-text);
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
+
+/* ================= 3. CONTENT & GRID ================= */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 40px 0;
+}
+
+.category-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--neon-blue);
+    display: inline-block;
+    color: var(--neon-blue);
+}
+
+.founder-section .category-title {
+    color: var(--neon-gold);
+    border-bottom-color: var(--neon-gold);
+}
+
+.member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.member-card {
+    background-color: var(--card-bg);
+    padding: 15px;
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.member-card:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.founder-section .member-card {
+    border-left: 5px solid var(--neon-gold);
+}
+
+.is-leader {
+    border-left: 5px solid var(--neon-blue);
+    color: var(--neon-blue);
+}
+
+.neon-gold {
+    color: var(--neon-gold);
+    text-shadow: 0 0 5px var(--neon-gold);
+}
+
+
+/* ================= 4. FOOTER ================= */
+.footer {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #444;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+}
+
+/* ================= 5. RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .header-banner {
+        padding: 60px 20px 20px;
+    }
+
+    .back-home-btn {
+        top: 15px;
+        left: 10px;
+    }
+
+    .main-title {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .container {
+        margin: 20px auto;
+    }
+
+    .category-title {
+        font-size: 1.5rem;
+    }
+}
