@@ -28,7 +28,7 @@
             position: relative;
         }
 
-        /* --- วิดีโอพื้นหลัง (ปรับความสว่าง) --- */
+        /* --- วิดีโอพื้นหลัง (กลับไปใช้ความสว่าง 55% เท่าเดิม) --- */
         #bg-video {
             position: absolute;
             top: 0;
@@ -38,7 +38,7 @@
             object-fit: cover;
             z-index: -2;
             
-            /* --- ปรับตรงนี้: เปลี่ยน brightness เป็น 55% --- */
+            /* --- แก้ไขกลับไปที่ brightness 55% --- */
             filter: grayscale(100%) brightness(55%) contrast(120%);
         }
 
@@ -152,7 +152,7 @@
         <p class="subtitle">bestoftoxicboys</p>
 
         <div class="btn-group">
-            <a href="#" class="btn">
+            <a href="person_list.html" class="btn">
                 PERSON LIST <i class="fas fa-users"></i>
             </a>
         </div>
