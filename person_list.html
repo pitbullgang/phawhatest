@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHAWHA | PERSON LIST</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="1">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -18,7 +18,7 @@
             --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
             --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
             
-            /* ***** สีที่เปลี่ยนเป็นสีขาว ***** */
+            /* สีขาวสำหรับช่องค้นหา */
             --search-white-border: #ffffff; 
             --search-box-bg: #161616; 
         }
@@ -33,14 +33,15 @@
 
         /* ================= 2. HEADER & BANNER ================= */
         .header-banner {
-            padding: 50px 50px 30px;
+            /* ลด padding ด้านบนลง เพื่อให้เนื้อหาทั้งหมดขยับขึ้น */
+            padding: 30px 50px 30px; 
             background: #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             text-align: center;
             position: relative; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            /* ลบ padding-bottom ที่เคยเพิ่มสำหรับ absolute positioning ออก */
-            padding-bottom: 40px; 
+            /* เพิ่มพื้นที่ด้านล่าง เพื่อให้ช่องค้นหามีพื้นที่ทับซ้อน */
+            padding-bottom: 70px; 
         }
 
         .back-home-btn {
@@ -62,32 +63,37 @@
 
         .main-title {
             font-family: 'Oswald', sans-serif;
-            font-size: 3rem;
+            /* ลดขนาดจาก 3rem เหลือประมาณ 2.7rem (ลด 10%) */
+            font-size: 2.7rem; 
             text-transform: uppercase;
             letter-spacing: 5px;
             color: var(--light-text);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            /* ขยับขึ้น: ลด margin-top (ถ้ามี) หรือใช้ margin-top ค่าลบถ้าจำเป็น */
+            margin-top: 0; 
         }
 
         .subtitle {
             font-size: 1rem;
             color: var(--sub-text);
-            margin-top: 10px;
+            /* ขยับขึ้น: ลด margin-top ลง */
+            margin-top: 5px; 
             letter-spacing: 2px;
+            margin-bottom: 30px; 
         }
 
 
-        /* ***** สไตล์สำหรับส่วนค้นหาที่ถูกย้ายออกมาแต่ใช้ Margin ดึงทับซ้อน Header ***** */
+        /* ***** สไตล์สำหรับส่วนค้นหาที่ใช้ Margin ดึงทับซ้อน Header และเปลี่ยนเป็นสีขาว ***** */
         .search-container-wrapper {
             text-align: center;
             /* ดึงช่องค้นหาขึ้นไปทับซ้อนส่วน Header */
-            margin-top: -30px; 
+            margin-top: -80px; 
             margin-bottom: 40px; /* เว้นระยะจาก FOUNDER */
             padding: 0 20px;
-            z-index: 10; /* ให้ช่องค้นหาอยู่ด้านบนสุด */
+            z-index: 10; 
         }
 
-        /* ซ่อนข้อความกำกับ */
+        /* ซ่อนข้อความกำกับ (ตามภาพตัวอย่าง) */
         .search-description {
             display: none; 
         }
@@ -100,12 +106,12 @@
             margin: 0 auto;
             background-color: var(--search-box-bg); 
             
-            /* เปลี่ยนจากสีแดงเป็นสีขาว */
+            /* ขอบสีขาว */
             border: 3px solid var(--search-white-border); 
             border-radius: 5px; 
             overflow: hidden;
             
-            /* เปลี่ยนเงาจากสีแดงเป็นสีขาวนีออน */
+            /* เงาสีขาวนีออน */
             box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2); 
         }
 
@@ -129,15 +135,15 @@
             border: none;
             padding: 15px 20px;
             cursor: pointer;
-            /* เปลี่ยนสีไอคอนเป็นสีขาว */
+            /* ไอคอนสีขาว */
             color: var(--search-white-border); 
             font-size: 1.2rem;
             transition: color 0.2s, background-color 0.2s;
         }
 
         .search-button:hover {
-            color: var(--dark-bg); /* เปลี่ยนเป็นสีดำเมื่อโฮเวอร์ */
-            background-color: var(--search-white-border); /* เพิ่มสีพื้นหลังเป็นขาวทึบ */
+            color: var(--dark-bg); 
+            background-color: var(--search-white-border); 
         }
         /* ******************************************* */
 
@@ -145,7 +151,6 @@
         /* ================= 3. CONTENT & GRID ================= */
         .container {
             max-width: 1200px;
-            /* ลบ Margin ด้านบนออก เพราะ search-container-wrapper มี margin-bottom แล้ว */
             margin: 0 auto 40px; 
             padding: 0 20px;
         }
@@ -167,32 +172,25 @@
             display: inline-block;
             color: var(--neon-gold);
         }
-
-        /* FOUNDER (ใช้สีทอง) */
+        
+        /* ... (โค้ดส่วนอื่นๆ ของ Founder, Leader, Member เหมือนเดิม) ... */
         .founder-section .category-title {
             color: var(--neon-gold);
             border-bottom-color: var(--neon-gold);
         }
-
-        /* LEADER (ใช้สีแดง) */
         .leader-section .category-title {
             color: var(--neon-red); 
             border-bottom-color: var(--neon-red);
         }
-
-        /* MEMBER (ใช้สีขาว) */
         .member-section .category-title {
             color: var(--neon-white); 
             border-bottom-color: var(--neon-white);
         }
-
-
         .member-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
         }
-
         .member-card {
             background-color: var(--card-bg);
             padding: 15px;
@@ -204,31 +202,22 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
-
         .member-card:hover {
             background-color: #2a2a2a;
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
         }
-
-        /* เอฟเฟกต์เฉพาะ Founder/Leader/Member */
         .founder-section .member-card {
             border-left: 5px solid var(--neon-gold);
         }
-
-        /* LEADER: ขอบซ้ายและสีตัวอักษรเป็นสีแดง */
         .is-leader {
             border-left: 5px solid var(--neon-red); 
             color: var(--neon-red); 
         }
-
-        /* MEMBER: ขอบซ้ายเป็นสีขาว */
         .member-section .member-card {
             border-left: 5px solid var(--neon-white); 
             color: var(--neon-white); 
         }
-
-
         .neon-gold {
             color: var(--neon-gold);
             text-shadow: 0 0 5px var(--neon-gold);
@@ -249,26 +238,23 @@
         /* ================= 5. RESPONSIVE ================= */
         @media (max-width: 768px) {
             .header-banner {
-                padding: 60px 20px 20px;
-            }
-
-            .back-home-btn {
-                top: 15px;
-                left: 10px;
+                padding: 40px 20px 20px; /* ปรับลด padding ด้านบน */
             }
 
             .main-title {
-                font-size: 2rem;
+                font-size: 2.5rem; /* ปรับขนาดสำหรับมือถือ */
             }
 
             .subtitle {
                 font-size: 0.8rem;
+                margin-top: 5px;
+                margin-bottom: 20px;
             }
             
             .search-container-wrapper {
                 padding: 0 10px; 
                 width: 95%; 
-                margin-top: -25px; 
+                margin-top: -60px; 
             }
 
             .search-box {
