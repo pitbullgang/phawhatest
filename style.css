@@ -1,8 +1,9 @@
-/* ================= SETTINGS ================= */
+/* ================= SETTINGS (ตั้งค่าสีใหม่) ================= */
 :root {
-    --primary-color: #ff3333; /* สีแดงสดแบบ Toxic */
-    --dark-bg: #050505;
-    --font-main: 'Montserrat', sans-serif; /* ฟอนต์หัวข้อภาษาอังกฤษหนาๆ */
+    /* 🔥 เปลี่ยนสีหลักจากแดง เป็น ขาวสว่าง (Cyber White) */
+    --primary-color: #ffffff; 
+    --dark-bg: #000000; /* ดำสนิท */
+    --font-main: 'Montserrat', sans-serif;
     --font-sub: 'Kanit', sans-serif;
 }
 
@@ -13,43 +14,45 @@ body {
     background-color: var(--dark-bg);
     color: white;
     height: 100vh;
-    overflow: hidden; /* ห้ามเลื่อนหน้าจอ */
-    -webkit-user-select: none; user-select: none; /* ห้ามคลุมดำ */
+    overflow: hidden;
+    -webkit-user-select: none; user-select: none;
 }
 
-/* ================= BACKGROUND EFFECTS ================= */
-/* 1. วิดีโอพื้นหลัง */
+/* ================= BACKGROUND EFFECTS (แก้เอฟเฟกต์พื้นหลัง) ================= */
+/* 1. วิดีโอพื้นหลัง (ปรับเป็นขาวดำ) */
 #bg-video {
     position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
     object-fit: cover; z-index: -5;
-    filter: grayscale(80%) brightness(0.4); /* ทำให้มืดและซีดลง */
-    transform: scale(1.1); /* ขยายเล็กน้อยเพื่อลบขอบ */
+    /* 🔥 แก้ตรงนี้: grayscale(100%) คือขาวดำสนิท, เพิ่ม contrast ให้ดูเข้มขลัง */
+    filter: grayscale(100%) brightness(0.3) contrast(1.2);
+    transform: scale(1.1);
 }
 
-/* 2. เลเยอร์มืด (Vignette) ทำให้ตรงกลางเด่น */
+/* 2. เลเยอร์มืด (Vignette) */
 .dark-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 80%);
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.95) 80%);
     z-index: -4;
 }
 
-/* 3. แสงสะท้อนสร้างมิติ (Ambient Light) */
+/* 3. แสงสะท้อนสร้างมิติ (Ambient Light - เปลี่ยนเป็นแสงขาว) */
 .ambient-light {
     position: fixed; top: 50%; left: 50%;
     width: 200vw; height: 200vh;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255, 51, 51, 0.15) 0%, transparent 60%);
-    mix-blend-mode: color-dodge; /* ทำให้แสงดูฟุ้งๆ */
+    /* 🔥 แก้สีแสงฟุ้งเป็นสีขาว */
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+    mix-blend-mode: overlay; /* เปลี่ยนโหมดผสมสีให้ดูพรีเมียมขึ้น */
     pointer-events: none; z-index: -3;
     animation: pulseLight 8s ease-in-out infinite alternate;
 }
 @keyframes pulseLight {
-    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* 4. สะเก็ดไฟลอย (Floating Embers) */
+/* 4. สะเก็ดไฟลอย (เปลี่ยนเป็นละอองแสงขาว) */
 .floating-embers {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     z-index: -2; overflow: hidden; pointer-events: none;
@@ -58,10 +61,11 @@ body {
     position: absolute; bottom: -50px;
     width: 4px; height: 4px; background: var(--primary-color);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+    /* 🔥 แก้เงาสะเก็ดไฟเป็นสีขาว */
+    box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4);
     animation: floatUp linear infinite; opacity: 0;
 }
-/* ตั้งค่าการลอยแบบสุ่ม */
+/* ตั้งค่าการลอย (เหมือนเดิม) */
 .floating-embers span:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
 .floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 6px; height: 6px; }
 .floating-embers span:nth-child(3) { left: 35%; animation-duration: 5s; animation-delay: 4s; }
@@ -82,25 +86,22 @@ body {
     height: 100vh; display: flex; justify-content: center; align-items: center;
     text-align: center; z-index: 10; position: relative;
 }
-.content-box {
-    padding: 40px;
-}
+.content-box { padding: 40px; }
 
-/* Main Title: Phawha */
+/* Main Title: Phawha (เปลี่ยนแสงนีออนเป็นสีขาว) */
 .main-title {
     font-family: var(--font-main);
     font-size: 6rem; font-weight: 900;
     text-transform: uppercase; letter-spacing: 4px;
     color: #fff;
-    /* แสงนีออนสีแดง */
-    text-shadow: 0 0 10px rgba(255, 51, 51, 0.8),
-                 0 0 30px rgba(255, 51, 51, 0.5),
-                 0 0 70px rgba(255, 51, 51, 0.3);
-    margin-bottom: 10px;
-    position: relative;
+    /* 🔥 แก้เงานีออนเป็นสีขาว */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+                 0 0 30px rgba(255, 255, 255, 0.6),
+                 0 0 70px rgba(255, 255, 255, 0.4);
+    margin-bottom: 10px; position: relative;
 }
 
-/* Subtitle: Bestoftoxicboys */
+/* Subtitle */
 .sub-title {
     font-family: var(--font-sub);
     font-size: 1.2rem; font-weight: 400;
@@ -110,35 +111,11 @@ body {
     text-shadow: 0 0 5px rgba(0,0,0,0.8);
 }
 
-/* ================= CYBER BUTTON ================= */
+/* ================= CYBER BUTTON (เปลี่ยนเป็นธีมขาว) ================= */
 .btn-container { display: flex; justify-content: center; }
 
 .cyber-btn {
     position: relative;
     text-decoration: none; color: var(--primary-color);
     font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
-    padding: 15px 50px;
-    background: transparent;
-    border: 2px solid var(--primary-color);
-    text-transform: uppercase;
-    overflow: hidden; transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    /* เงาแสงด้านใน */
-    box-shadow: inset 0 0 20px rgba(255, 51, 51, 0.2);
-    backdrop-filter: blur(5px);
-}
-
-.btn-content {
-    position: relative; z-index: 2; display: flex; align-items: center; gap: 10px;
-}
-
-/* เอฟเฟกต์เมื่อเอาเมาส์ชี้ปุ่ม */
-.cyber-btn:hover {
-    color: #fff;
-    background: var(--primary-color);
-    box-shadow: 0 0 30px var(--primary-color), inset 0 0 30px var(--primary-color);
-    transform: scale(1.05); letter-spacing: 4px;
-}
-
-/* ลูกเล่น Glitch วิ่งผ่านปุ่ม */
-.btn-glitch {
-    position: absolute; top: 0; left: -100
+    padding:
