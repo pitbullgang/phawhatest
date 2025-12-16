@@ -28,7 +28,7 @@
             position: relative;
         }
 
-        /* --- วิดีโอพื้นหลัง (ขาวดำและมืดตามรูป) --- */
+        /* --- วิดีโอพื้นหลัง (ปรับความสว่าง) --- */
         #bg-video {
             position: absolute;
             top: 0;
@@ -37,11 +37,12 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
-            /* ปรับให้มืดและเป็นขาวดำเพื่อให้เหมือนรูปตัวอย่าง */
-            filter: grayscale(100%) brightness(30%) contrast(120%);
+            
+            /* --- ปรับตรงนี้: เปลี่ยน brightness เป็น 55% --- */
+            filter: grayscale(100%) brightness(55%) contrast(120%);
         }
 
-        /* เลเยอร์ Noise จางๆ (ถ้าไม่ชอบลบออกได้) */
+        /* เลเยอร์ Noise จางๆ */
         .overlay {
             position: absolute;
             top: 0;
@@ -61,19 +62,19 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem; /* ระยะห่างระหว่างบรรทัด */
+            gap: 1.5rem;
             animation: fadeIn 1.5s ease-out;
         }
 
         h1.main-title {
             font-family: 'Oswald', sans-serif;
-            font-size: 6rem; /* ขนาดตัวอักษรใหญ่ */
+            font-size: 6rem;
             text-transform: uppercase;
             letter-spacing: 5px;
             margin: 0;
             line-height: 1;
             color: #fff;
-            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8); /* เงาดำรองหลังให้อ่านง่าย */
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         p.subtitle {
@@ -95,8 +96,8 @@
         .btn {
             text-decoration: none;
             color: #fff;
-            background: transparent; /* พื้นหลังใสตามรูป */
-            border: 2px solid #fff; /* ขอบขาว */
+            background: transparent;
+            border: 2px solid #fff;
             padding: 12px 40px;
             font-size: 1rem;
             font-weight: bold;
