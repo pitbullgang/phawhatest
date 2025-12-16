@@ -24,7 +24,7 @@
             position: relative;
         }
 
-        /* --- วิดีโอพื้นหลัง (ขาวดำแบบเดิม) --- */
+        /* --- วิดีโอพื้นหลัง (ขาวดำและมืด) --- */
         #bg-video {
             position: absolute;
             top: 0;
@@ -32,114 +32,141 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: -2;
-            filter: grayscale(100%) brightness(40%) contrast(120%);
+            z-index: -3;
+            filter: grayscale(100%) brightness(30%) contrast(130%);
         }
 
-        /* เลเยอร์ Noise จางๆ */
-        .overlay {
+        /* เอฟเฟกต์ Scanlines (เส้นสแกนทีวี) */
+        .scanlines {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzjwqgGlQAHEBGEGEAxhAAApRhJPw/El4gAAAABJRU5ErkJggg==');
-            opacity: 0.2;
-            z-index: -1;
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%,
+                rgba(0, 0, 0, 0.25) 50%
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255, 0, 0, 0.06),
+                rgba(0, 255, 0, 0.02),
+                rgba(0, 0, 255, 0.06)
+            );
+            background-size: 100% 2px, 3px 100%;
             pointer-events: none;
+            z-index: -1;
         }
 
-        /* --- คอนเทนเนอร์หลัก (จัดวางแบบหน้าจอเกม) --- */
+        /* เอฟเฟกต์ Vignette (ขอบมืด) */
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 40%, black 150%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* --- คอนเทนเนอร์หลัก --- */
         .container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 60px; /* ระยะห่างจากขอบจอ */
+            padding: 60px;
             z-index: 1;
-            
-            /* ใช้ Flexbox จัดวางซ้าย-ขวา */
             display: flex;
-            justify-content: space-between; /* ดันของไปสุดขอบซ้ายและขวา */
-            align-items: flex-end; /* ดันของลงมาข้างล่าง */
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* กลุ่มข้อความ (อยู่ซ้ายล่าง) */
+        /* กลุ่มข้อความ (ซ้ายบน) */
         .text-zone {
             text-align: left;
-            animation: slideInLeft 1s ease-out;
+            animation: slideDown 1s ease-out;
         }
 
+        /* ชื่อแก๊งพร้อมเอฟเฟกต์ Glitch */
         h1.main-title {
             font-family: 'Oswald', sans-serif;
-            font-size: 7rem; /* ใหญ่สะใจ */
+            font-size: 8rem;
             text-transform: uppercase;
-            line-height: 0.9;
+            line-height: 0.8;
             margin: 0;
+            position: relative;
+            color: #fff;
+            letter-spacing: -5px;
             
-            /* เอฟเฟกต์ตัวหนังสือซ้อนกัน (Glitch Vibe) */
-            text-shadow: 3px 3px 0px rgba(255, 255, 255, 0.2);
-            background: linear-gradient(to right, #fff, #bbb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            /* Glitch Effect */
+            text-shadow: 2px 2px 0px #0ff, -2px -2px 0px #f0f;
+            animation: glitch 3s infinite alternate;
         }
 
         p.subtitle {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 12px; /* ห่างๆ แบบ Cinematic */
-            color: #dcdcdc;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            text-transform: lowercase;
+            letter-spacing: 5px;
+            color: #aaa;
+            margin-top: 10px;
+            margin-left: 10px;
             font-weight: 400;
-            border-left: 5px solid #fff; /* เส้นขีดข้างหน้า */
-            padding-left: 15px;
+            opacity: 0.7;
         }
 
-        /* กลุ่มปุ่ม (อยู่ขวาล่าง) */
+        /* กลุ่มปุ่ม (ขวาล่าง) */
         .action-zone {
             text-align: right;
-            animation: slideInRight 1s ease-out;
+            animation: slideUp 1s ease-out;
+            align-self: flex-end;
         }
 
+        /* ปุ่มสไตล์ Cyberpunk */
         .btn {
             text-decoration: none;
             color: #fff;
             background: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 20px 60px;
+            border: 2px solid #fff;
+            padding: 25px 70px;
             font-size: 1.2rem;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             display: inline-block;
+            
+            /* เอฟเฟกต์แสงนีออน */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1), inset 0 0 10px rgba(255, 255, 255, 0.1);
         }
 
-        /* เอฟเฟกต์ปุ่มตอนชี้ */
         .btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 0;
             height: 100%;
-            background: #fff;
-            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.5s ease;
             z-index: -1;
         }
 
         .btn:hover::before {
-            left: 0;
+            width: 300%;
         }
 
         .btn:hover {
             color: #000;
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.4);
             border-color: #fff;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
 
         .footer {
@@ -148,52 +175,63 @@
             width: 100%;
             text-align: center;
             font-size: 0.7rem;
-            color: #555;
+            color: #444;
             pointer-events: none;
+            letter-spacing: 2px;
         }
 
-        /* Animation */
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+        /* Animations */
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px #0ff, -2px -2px 0px #f0f; }
+            20% { text-shadow: -2px -2px 0px #0ff, 2px 2px 0px #f0f; }
+            40% { text-shadow: 2px -2px 0px #0ff, -2px 2px 0px #f0f; }
+            60% { text-shadow: -2px 2px 0px #0ff, 2px -2px 0px #f0f; }
+            80% { text-shadow: 0px 0px 0px #0ff, 0px 0px 0px #f0f; }
+            100% { text-shadow: 2px 2px 0px #0ff, -2px -2px 0px #f0f; }
         }
 
-        /* --- Responsive: ปรับให้สวยในมือถือ --- */
+        /* --- Responsive --- */
         @media (max-width: 768px) {
             .container {
-                flex-direction: column; /* เรียงแนวตั้ง */
                 justify-content: center;
                 align-items: center;
-                padding: 20px;
+                padding: 30px;
                 text-align: center;
             }
 
             .text-zone {
                 text-align: center;
-                margin-bottom: 40px;
-            }
-
-            p.subtitle {
-                border-left: none; /* เอาเส้นข้างออก */
-                padding-left: 0;
-                font-size: 1rem;
-                letter-spacing: 5px;
+                margin-bottom: 60px;
+                animation: slideDown 1s ease-out;
             }
 
             h1.main-title {
-                font-size: 4rem;
+                font-size: 5rem;
+                letter-spacing: -2px;
+            }
+
+            p.subtitle {
+                margin-left: 0;
+                font-size: 1rem;
+                letter-spacing: 3px;
             }
 
             .action-zone {
                 text-align: center;
+                align-self: center;
+                animation: slideUp 1s ease-out;
             }
             
             .btn {
-                padding: 15px 40px;
+                padding: 20px 50px;
                 font-size: 1rem;
             }
         }
@@ -206,17 +244,18 @@
         Your browser does not support HTML5 video.
     </video>
 
-    <div class="overlay"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
 
     <div class="container">
         <div class="text-zone">
-            <p class="subtitle">bestoftoxicboys</p>
             <h1 class="main-title">PHAWHA</h1>
+            <p class="subtitle">bestoftoxicboys</p>
         </div>
 
         <div class="action-zone">
             <a href="#" class="btn">
-                PERSON LIST &nbsp;<i class="fas fa-arrow-right"></i>
+                PERSON LIST
             </a>
         </div>
     </div>
