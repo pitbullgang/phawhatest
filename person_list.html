@@ -10,17 +10,23 @@
     <link rel="stylesheet" href="person_list.css"> 
 
     <style>
-        /* เพิ่มสไตล์สำหรับลิงก์ใน member-card เพื่อให้คลิกได้ทั้งบล็อก และตั้งค่าสีของลิงก์ */
+        /* ==================== 1. แก้ไข Grid เพื่อให้การ์ดขยายใหญ่ ==================== */
+        /* การแก้ไขนี้จะบังคับให้การ์ดขยายเต็มความกว้างที่เหลืออยู่ แม้จะมีไม่เต็มแถว */
+        .member-grid {
+            /* ต้อง Override การตั้งค่าจาก person_list.css */
+            grid-template-columns: repeat(auto-fit, minmax(0, 1fr)) !important; 
+        }
+
+        /* ==================== 2. สไตล์เดิมสำหรับการจัดการลิงก์ ==================== */
         .member-card a {
-            text-decoration: none; /* ลบขีดเส้นใต้ออก */
-            display: block; /* ทำให้ลิงก์ครอบคลุมพื้นที่ทั้งหมดของ div */
+            text-decoration: none;
+            display: block;
             width: 100%;
             height: 100%;
             padding: 15px; 
-            margin: -15px; /* ชดเชย padding */
+            margin: -15px; 
             box-sizing: border-box; 
             transition: color 0.3s;
-            /* กำหนดสีตัวอักษรเริ่มต้นตามประเภทสมาชิก */
             color: var(--neon-white); 
         }
 
@@ -36,9 +42,8 @@
             color: var(--neon-white);
         }
 
-        /* ต้องลบ padding เดิมของ .member-card ออก เพื่อให้ลิงก์ควบคุมพื้นที่ทั้งหมด */
         .member-card {
-            padding: 0; /* ลบ padding เดิมออก */
+            padding: 0; 
         }
     </style>
 </head>
