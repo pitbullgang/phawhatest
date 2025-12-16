@@ -1,11 +1,12 @@
-/* ================= 1. BASE STYLES ================= */
+/* ================= 1. BASE STYLES & COLOR SETTINGS ================= */
 :root {
     --dark-bg: #111111;
     --card-bg: #1e1e1e;
     --light-text: #ffffff;
     --sub-text: #aaaaaa;
-    --neon-blue: #0ff;
-    --neon-gold: #ffcc00;
+    --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
+    --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
+    --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
 }
 
 body {
@@ -72,6 +73,7 @@ body {
     margin: 40px 0;
 }
 
+/* ตั้งค่า Title พื้นฐาน */
 .category-title {
     font-family: 'Oswald', sans-serif;
     font-size: 1.8rem;
@@ -79,15 +81,29 @@ body {
     letter-spacing: 4px;
     margin-bottom: 20px;
     padding-bottom: 5px;
-    border-bottom: 2px solid var(--neon-blue);
+    border-bottom: 2px solid var(--neon-gold); /* Default: Gold */
     display: inline-block;
-    color: var(--neon-blue);
+    color: var(--neon-gold);
 }
 
+/* FOUNDER (ใช้สีทอง) */
 .founder-section .category-title {
     color: var(--neon-gold);
     border-bottom-color: var(--neon-gold);
 }
+
+/* LEADER (ใช้สีแดง) */
+.leader-section .category-title {
+    color: var(--neon-red); /* เปลี่ยนสี Title เป็นแดง */
+    border-bottom-color: var(--neon-red);
+}
+
+/* MEMBER (ใช้สีขาว) */
+.member-section .category-title {
+    color: var(--neon-white); /* เปลี่ยนสี Title เป็นขาว */
+    border-bottom-color: var(--neon-white);
+}
+
 
 .member-grid {
     display: grid;
@@ -113,14 +129,23 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
+/* เอฟเฟกต์เฉพาะ Founder/Leader/Member */
 .founder-section .member-card {
     border-left: 5px solid var(--neon-gold);
 }
 
+/* LEADER: ขอบซ้ายและสีตัวอักษรเป็นสีแดง */
 .is-leader {
-    border-left: 5px solid var(--neon-blue);
-    color: var(--neon-blue);
+    border-left: 5px solid var(--neon-red); /* เปลี่ยนขอบเป็นสีแดง */
+    color: var(--neon-red); /* เปลี่ยนสีตัวอักษรเป็นสีแดง */
 }
+
+/* MEMBER: ขอบซ้ายเป็นสีขาว */
+.member-section .member-card {
+    border-left: 5px solid var(--neon-white); /* กำหนดขอบเป็นสีขาว */
+    color: var(--neon-white); /* กำหนดสีตัวอักษรเป็นสีขาว */
+}
+
 
 .neon-gold {
     color: var(--neon-gold);
