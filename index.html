@@ -37,8 +37,10 @@
             object-fit: cover; /* ขยายวิดีโอให้เต็มจอโดยไม่เสียสัดส่วน */
             z-index: -2; /* อยู่หลังสุด */
             
-            /* ปรับวิดีโอเป็นขาวดำและมืดลงเพื่อให้ตัวหนังสือเด่น */
-            filter: grayscale(100%) brightness(40%) contrast(110%);
+            /* --- แก้ไขตรงนี้ --- */
+            /* ลบ grayscale ออกเพื่อให้มีสีสดใส */
+            /* ปรับ brightness(60%) เพื่อให้วิดีโอไม่แย่งซีนตัวหนังสือ (ถ้ามืดไปปรับเลขเพิ่มได้ครับ) */
+            filter: brightness(60%) contrast(110%);
         }
 
         /* เอฟเฟกต์จุดๆ (Noise) ทับวิดีโอ */
@@ -49,8 +51,8 @@
             width: 100%;
             height: 100%;
             background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzjwqgGlQAHEBGEGEAxhAAApRhJPw/El4gAAAABJRU5ErkJggg==');
-            opacity: 0.3;
-            z-index: -1; /* อยู่บนวิดีโอ แต่อยู่หลังตัวหนังสือ */
+            opacity: 0.3; /* ความจางของลายจุด */
+            z-index: -1;
         }
 
         .content {
