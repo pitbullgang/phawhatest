@@ -7,7 +7,7 @@
     --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
     --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
     --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
-    --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
+    --search-red-border: #ffffff; /* สีแดงอ่อนสำหรับขอบค้นหา */
     --search-box-bg: #1a1a1a; /* สีพื้นหลังช่องค้นหา */
 }
 
