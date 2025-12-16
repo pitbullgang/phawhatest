@@ -7,7 +7,7 @@
     --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
     --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
     --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
-    --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
+    --search-red-border: #ffffff; /* สีแดงอ่อนสำหรับขอบค้นหา */
     --search-box-bg: #1a1a1a; /* สีพื้นหลังช่องค้นหา */
 }
 
@@ -62,7 +62,7 @@ body {
     letter-spacing: 2px;
 }
 
-/* ***** สไตล์สำหรับส่วนค้นหาที่เพิ่มเข้ามา ***** */
+/* ***** สไตล์สำหรับส่วนค้นหา ***** */
 .search-container {
     margin-top: 25px; /* เว้นระยะห่างจาก subtitle */
     padding: 0 20px;
@@ -124,7 +124,6 @@ body {
     margin: 40px auto;
     padding: 0 20px;
 }
-/* ... สไตล์ส่วนที่เหลือเหมือนเดิม ... */
 
 .divider {
     border: none;
