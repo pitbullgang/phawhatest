@@ -1,1 +1,353 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHAWHA | PERSON LIST (WITH LINK)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <style>
+        /* ================= 1. BASE STYLES & COLOR SETTINGS ================= */
+        :root {
+            --dark-bg: #111111;
+            --card-bg: #1e1e1e;
+            --light-text: #ffffff;
+            --sub-text: #aaaaaa;
+            --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
+            --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
+            --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
+            
+            /* สีขาวสำหรับช่องค้นหา (สไตล์ที่คุณเคยต้องการ) */
+            --search-white-border: #ffffff; 
+            --search-box-bg: #161616; 
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* ================= 2. HEADER & BANNER ================= */
+        .header-banner {
+            /* ปรับตามการแก้ไขล่าสุด: Header ขยับขึ้นและชิดกัน */
+            padding: 30px 50px 30px; 
+            background: #000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 70px; 
+        }
+
+        .back-home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--sub-text);
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .back-home-btn:hover {
+            color: var(--light-text);
+            border-color: var(--sub-text);
+        }
+
+        .main-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.7rem; 
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--light-text);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin-top: 0; 
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--sub-text);
+            margin-top: 0px; 
+            letter-spacing: 2px;
+            margin-bottom: 30px; 
+        }
+
+        /* ***** สไตล์สำหรับส่วนค้นหา (กรอบขาวนีออน) ***** */
+        .search-container-wrapper {
+            text-align: center;
+            margin-top: -80px; 
+            margin-bottom: 40px; 
+            padding: 0 20px;
+            z-index: 10; 
+        }
+
+        .search-description {
+            display: none; /* ซ่อนข้อความ "รายชื่อสมาชิกในแก๊ง" */
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            background-color: var(--search-box-bg); 
+            
+            /* ขอบสีขาว */
+            border: 3px solid var(--search-white-border); 
+            border-radius: 5px; 
+            overflow: hidden;
+            
+            /* เงาสีขาวนีออน */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2); 
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: var(--light-text); 
+            outline: none; 
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .search-input::placeholder {
+            color: #999; 
+        }
+
+        .search-button {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            color: var(--search-white-border); 
+            font-size: 1.2rem;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .search-button:hover {
+            color: var(--dark-bg); 
+            background-color: var(--search-white-border); 
+        }
+        /* ******************************************* */
+
+
+        /* ================= 3. CONTENT & GRID (สไตล์ที่มีลิงก์) ================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 40px; 
+            padding: 0 20px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+        }
+
+        .category-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--neon-gold); 
+            display: inline-block;
+            color: var(--neon-gold);
+        }
+        
+        /* สไตล์สำหรับลิงก์ใน Member Card */
+        .member-card a {
+            text-decoration: none; /* ลบขีดเส้นใต้ออก */
+            display: block; /* ทำให้ลิงก์ครอบคลุมพื้นที่ทั้งหมดของ div */
+            width: 100%;
+            height: 100%;
+            padding: 15px; 
+            margin: -15px; 
+            box-sizing: border-box; 
+            transition: color 0.3s;
+            
+            /* กำหนดสีตัวอักษรเริ่มต้นตามประเภทสมาชิก */
+            color: var(--neon-white); 
+        }
+        
+        /* FOUNDER: สีทอง */
+        .founder-section .member-card a {
+            color: var(--neon-gold);
+        }
+        
+        /* LEADER: สีแดง */
+        .is-leader a {
+            color: var(--neon-red) !important; 
+        }
+        
+        /* MEMBER: สีขาว */
+        .member-section .member-card a {
+            color: var(--neon-white);
+        }
+        
+        /* สไตล์หลักของ Grid และ Card */
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .member-card {
+            background-color: var(--card-bg);
+            padding: 0; 
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            position: relative; 
+        }
+        .member-card:hover {
+            background-color: #2a2a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+        .founder-section .member-card {
+            border-left: 5px solid var(--neon-gold);
+        }
+        .is-leader {
+            border-left: 5px solid var(--neon-red); 
+        }
+        .member-section .member-card {
+            border-left: 5px solid var(--neon-white); 
+        }
+        .neon-gold {
+            color: var(--neon-gold);
+            text-shadow: 0 0 5px var(--neon-gold);
+        }
+
+        /* ================= 4. FOOTER ================= */
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #000;
+        }
+
+        /* ================= 5. RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .header-banner {
+                padding: 40px 20px 20px; 
+            }
+
+            .main-title {
+                font-size: 2.5rem; 
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+                margin-top: 0px; 
+                margin-bottom: 20px;
+            }
+            
+            .search-container-wrapper {
+                padding: 0 10px; 
+                width: 95%; 
+                margin-top: -60px; 
+            }
+
+            .member-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <a href="index.html" class="back-home-btn"><i class="fas fa-chevron-left"></i> Back to PHAWHA</a>
+        <h1 class="main-title">PERSON LIST</h1>
+        <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
+    </div>
+
+    <div class="search-container-wrapper">
+        <div class="search-box">
+            <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <section class="member-category founder-section">
+            <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
+            <div class="member-grid">
+                <div class="member-card">
+                    <a href="https://www.facebook.com/Phawharakkaimaipen" target="_blank">KEN</a>
+                </div>
+                <div class="member-card">
+                    <a href="https://www.facebook.com/Phawharakkaimaipen" target="_blank">MOND</a>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="member-category leader-section">
+            <h2 class="category-title">LEADER</h2>
+            <div class="member-grid">
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_a_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> A</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_d_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> D</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_c_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> C</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_b_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> B</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_f_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> F</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_g_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> G</a>
+                </div>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="member-category member-section">
+            <h2 class="category-title">MEMBER</h2>
+            <div class="member-grid">
+                <div class="member-card"><a href="https://facebook.com/member_a_placeholder" target="_blank">A</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_b_placeholder" target="_blank">B</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_c_placeholder" target="_blank">C</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_d_placeholder" target="_blank">D</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_e_placeholder" target="_blank">E</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_f_placeholder" target="_blank">F</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_g_placeholder" target="_blank">G</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_m_placeholder" target="_blank">M</a></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        © DESIGNED BY Pitbull.
+    </div>
+
+</body>
+</html>
