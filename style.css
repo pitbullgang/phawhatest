@@ -69,7 +69,6 @@ body {
 .floating-embers span:nth-child(5) { left: 65%; animation-duration: 6s; animation-delay: 3s; }
 .floating-embers span:nth-child(6) { left: 80%; animation-duration: 9s; animation-delay: 5s; }
 .floating-embers span:nth-child(7) { left: 90%; animation-duration: 11s; animation-delay: 0.5s; width: 3px; height: 3px; }
-/* ...เพิ่มได้อีก... */
 
 @keyframes floatUp {
     0% { transform: translateY(0) rotate(0deg); opacity: 0; }
@@ -85,7 +84,6 @@ body {
 }
 .content-box {
     padding: 40px;
-    /* backdrop-filter: blur(5px); */ /* ถ้าอยากให้พื้นหลังเบลอๆ เปิดใช้อันนี้ */
 }
 
 /* Main Title: Phawha */
@@ -143,17 +141,4 @@ body {
 
 /* ลูกเล่น Glitch วิ่งผ่านปุ่ม */
 .btn-glitch {
-    position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-    transform: skewX(-25deg); z-index: 1;
-    transition: 0.5s;
-}
-.cyber-btn:hover .btn-glitch { left: 100%; }
-
-/* Responsive มือถือ */
-@media (max-width: 768px) {
-    .main-title { font-size: 3.5rem; letter-spacing: 2px; }
-    .sub-title { font-size: 0.9rem; letter-spacing: 4px; }
-    .cyber-btn { padding: 12px 30px; font-size: 1rem; width: 80%; }
-}
+    position: absolute; top: 0; left: -100
