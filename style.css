@@ -1,8 +1,7 @@
-/* ================= SETTINGS (ตั้งค่าสีใหม่) ================= */
+/* ================= SETTINGS (ตั้งค่าสีเดียวกับเดิม) ================= */
 :root {
-    /* 🔥 เปลี่ยนสีหลักจากแดง เป็น ขาวสว่าง (Cyber White) */
     --primary-color: #ffffff; 
-    --dark-bg: #000000; /* ดำสนิท */
+    --dark-bg: #000000;
     --font-main: 'Montserrat', sans-serif;
     --font-sub: 'Kanit', sans-serif;
 }
@@ -16,92 +15,96 @@ body {
     height: 100vh;
     overflow: hidden;
     -webkit-user-select: none; user-select: none;
+    position: relative; /* จำเป็นสำหรับ background ใหม่ */
 }
 
-/* ================= BACKGROUND EFFECTS (แก้เอฟเฟกต์พื้นหลัง) ================= */
-/* 1. วิดีโอพื้นหลัง (ปรับเป็นขาวดำ) */
-#bg-video {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover; z-index: -5;
-    /* 🔥 แก้ตรงนี้: grayscale(100%) คือขาวดำสนิท, เพิ่ม contrast ให้ดูเข้มขลัง */
-    filter: grayscale(100%) brightness(0.3) contrast(1.2);
-    transform: scale(1.1);
-}
+/* ================= NEW BACKGROUND EFFECTS (พื้นหลังใหม่สุดเท่) ================= */
 
-/* 2. เลเยอร์มืด (Vignette) */
-.dark-overlay {
+/* 1. ปิดวิดีโอเดิมไปเลย ไม่ใช้แล้ว */
+#bg-video { display: none; }
+
+/* 2. สร้างพื้นผิว Noise (เม็ดทราย) และ Vignette ให้ดูดุดัน */
+body::before {
+    content: "";
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.95) 80%);
-    z-index: -4;
+    z-index: -2;
+    /* สร้าง Noise ด้วย SVG filter + ไล่สีขอบมืด */
+    background: 
+        radial-gradient(circle at center, transparent 0%, #000 90%), /* ขอบมืด */
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E"); /* Noise จางๆ */
+    background-size: cover, 200px 200px;
+    mix-blend-mode: overlay;
+    opacity: 1;
 }
 
-/* 3. แสงสะท้อนสร้างมิติ (Ambient Light - เปลี่ยนเป็นแสงขาว) */
-.ambient-light {
-    position: fixed; top: 50%; left: 50%;
-    width: 200vw; height: 200vh;
-    transform: translate(-50%, -50%);
-    /* 🔥 แก้สีแสงฟุ้งเป็นสีขาว */
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
-    mix-blend-mode: overlay; /* เปลี่ยนโหมดผสมสีให้ดูพรีเมียมขึ้น */
-    pointer-events: none; z-index: -3;
-    animation: pulseLight 8s ease-in-out infinite alternate;
-}
-@keyframes pulseLight {
-    0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
-    100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.1); }
+/* 3. สร้างลำแสงเคลื่อนไหว (Moving Light Rays) */
+body::after {
+    content: "";
+    position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    z-index: -3;
+    /* สร้างเส้นแสง 2 เส้นพาดกัน */
+    background: 
+        linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.03) 48%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 52%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(255,255,255,0.03) 48%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 52%, transparent 55%);
+    background-size: 200% 200%;
+    animation: moveCyberLights 20s linear infinite; /* เคลื่อนที่ช้าๆ */
 }
 
-/* 4. สะเก็ดไฟลอย (เปลี่ยนเป็นละอองแสงขาว) */
+@keyframes moveCyberLights {
+    0% { background-position: 0% 0%, 0% 0%; transform: rotate(0deg); }
+    50% { background-position: 100% 100%, -100% 100%; }
+    100% { background-position: 0% 0%, 0% 0%; transform: rotate(360deg); /* หมุนช้าๆ */ }
+}
+
+/* (ลบ .dark-overlay และ .ambient-light อันเก่าออก เพราะใช้ body::before/after แทนแล้ว) */
+.dark-overlay, .ambient-light { display: none; }
+
+/* 4. สะเก็ดไฟลอย (อันเดิม แต่ปรับให้เข้ากับพื้นหลังใหม่) */
 .floating-embers {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -2; overflow: hidden; pointer-events: none;
+    z-index: -1; overflow: hidden; pointer-events: none;
 }
 .floating-embers span {
     position: absolute; bottom: -50px;
-    width: 4px; height: 4px; background: var(--primary-color);
+    width: 3px; height: 3px; background: var(--primary-color); /* เล็กลงหน่อย */
     border-radius: 50%;
-    /* 🔥 แก้เงาสะเก็ดไฟเป็นสีขาว */
-    box-shadow: 0 0 10px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.4);
+    box-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.4);
     animation: floatUp linear infinite; opacity: 0;
 }
 /* ตั้งค่าการลอย (เหมือนเดิม) */
 .floating-embers span:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
-.floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 6px; height: 6px; }
+.floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 4px; height: 4px; }
 .floating-embers span:nth-child(3) { left: 35%; animation-duration: 5s; animation-delay: 4s; }
-.floating-embers span:nth-child(4) { left: 50%; animation-duration: 8s; animation-delay: 1s; width: 5px; height: 5px; }
+.floating-embers span:nth-child(4) { left: 50%; animation-duration: 8s; animation-delay: 1s; width: 3px; height: 3px; }
 .floating-embers span:nth-child(5) { left: 65%; animation-duration: 6s; animation-delay: 3s; }
 .floating-embers span:nth-child(6) { left: 80%; animation-duration: 9s; animation-delay: 5s; }
-.floating-embers span:nth-child(7) { left: 90%; animation-duration: 11s; animation-delay: 0.5s; width: 3px; height: 3px; }
+.floating-embers span:nth-child(7) { left: 90%; animation-duration: 11s; animation-delay: 0.5s; width: 2px; height: 2px; }
 
 @keyframes floatUp {
     0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-    20% { opacity: 1; }
-    80% { opacity: 0.8; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.4; }
     100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
 }
 
-/* ================= MAIN CONTENT ================= */
+/* ================= MAIN CONTENT (เหมือนเดิม) ================= */
 .hero-section {
     height: 100vh; display: flex; justify-content: center; align-items: center;
     text-align: center; z-index: 10; position: relative;
 }
 .content-box { padding: 40px; }
 
-/* Main Title: Phawha (เปลี่ยนแสงนีออนเป็นสีขาว) */
+/* Main Title: Phawha */
 .main-title {
     font-family: var(--font-main);
     font-size: 6rem; font-weight: 900;
     text-transform: uppercase; letter-spacing: 4px;
     color: #fff;
-    /* 🔥 แก้เงานีออนเป็นสีขาว */
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
                  0 0 30px rgba(255, 255, 255, 0.6),
                  0 0 70px rgba(255, 255, 255, 0.4);
     margin-bottom: 10px; position: relative;
-    
-    /* 🔥🔥🔥 เพิ่มบรรทัดนี้: ขยับลงมา 5% 🔥🔥🔥 */
-    margin-top: 5%; 
+    margin-top: 5%; /* ตำแหน่งเดิมที่ขอไว้ */
 }
 
 /* Subtitle */
@@ -114,7 +117,7 @@ body {
     text-shadow: 0 0 5px rgba(0,0,0,0.8);
 }
 
-/* ================= CYBER BUTTON (เปลี่ยนเป็นธีมขาว) ================= */
+/* ================= CYBER BUTTON (เหมือนเดิม) ================= */
 .btn-container { display: flex; justify-content: center; }
 
 .cyber-btn {
@@ -123,46 +126,4 @@ body {
     font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
     padding: 15px 50px;
     background: transparent;
-    border: 2px solid var(--primary-color);
-    text-transform: uppercase;
-    overflow: hidden; transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    /* 🔥 แก้เงาแสงด้านในเป็นสีขาว */
-    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-}
-
-.btn-content {
-    position: relative; z-index: 2; display: flex; align-items: center; gap: 10px;
-}
-
-/* เอฟเฟกต์เมื่อเอาเมาส์ชี้ปุ่ม */
-.cyber-btn:hover {
-    color: #000; /* ตัวหนังสือดำเมื่อชี้ */
-    background: var(--primary-color);
-    /* 🔥 แก้แสงฟุ้งเป็นสีขาว */
-    box-shadow: 0 0 40px rgba(255,255,255,0.6), inset 0 0 30px rgba(255,255,255,1);
-    transform: scale(1.05); letter-spacing: 4px;
-}
-
-/* ลูกเล่น Glitch */
-.btn-glitch {
-    position: absolute; top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
-    transform: skewX(-25deg); z-index: 1; transition: 0.5s;
-}
-.cyber-btn:hover .btn-glitch { left: 100%; }
-
-/* Responsive มือถือ */
-@media (max-width: 768px) {
-    .main-title { font-size: 3.5rem; letter-spacing: 2px; }
-    .sub-title { font-size: 0.9rem; letter-spacing: 4px; }
-    .cyber-btn { padding: 12px 30px; font-size: 1rem; width: 80%; }
-}
-
-/* ================= LEGACY SUPPORT (อัปเดตหน้า Name List ให้เป็นธีมขาว) ================= */
-:root {
-    --accent-color: #ffffff; /* 🔥 เปลี่ยนสีเน้นในหน้าย่อยให้เป็นสีขาว */
-    --font: 'Kanit', sans-serif;
-    --text-color: #ffffff;
-}
+    border: 2px solid var(--
