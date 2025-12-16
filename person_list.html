@@ -18,9 +18,9 @@
             --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
             --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
             
-            /* ***** สีที่เปลี่ยนไปใช้สีขาว ***** */
-            --search-white-border: #ffffff; /* สีขาวสำหรับขอบค้นหา */
-            --search-box-bg: #161616; /* พื้นหลังช่องค้นหาเข้มกว่า card-bg เล็กน้อย */
+            /* ***** สีที่เปลี่ยนเป็นสีขาว ***** */
+            --search-white-border: #ffffff; 
+            --search-box-bg: #161616; 
         }
 
         body {
@@ -37,9 +37,9 @@
             background: #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             text-align: center;
-            position: relative;
+            position: relative; /* สำคัญ: เพื่อให้ position: absolute ของ search-box ทำงานได้ */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            /* เพิ่มพื้นที่ด้านล่างเพื่อรองรับช่องค้นหา */
+            /* เพิ่มพื้นที่ด้านล่าง เพื่อให้ช่องค้นหามีที่ว่าง */
             padding-bottom: 70px; 
         }
 
@@ -79,26 +79,19 @@
 
         /* ***** สไตล์สำหรับส่วนค้นหาที่ถูกย้ายไปใน Header และเปลี่ยนเป็นสีขาว ***** */
         .search-container-wrapper {
-            /* จัดตำแหน่งให้อยู่ในแถบ Header */
+            /* จัดตำแหน่งให้อยู่กลางด้านล่างของ Header */
             position: absolute; 
             bottom: 0;
             left: 50%;
-            transform: translate(-50%, 50%); /* จัดกลางและดึงลงมาครึ่งหนึ่ง */
-            width: 90%; /* ให้ความกว้างครอบคลุมใน Header */
+            transform: translate(-50%, 50%); /* จัดกลางและดึงลงมาครึ่งหนึ่งของความสูงตัวเอง */
+            width: 90%; 
             max-width: 700px;
             text-align: center;
         }
 
-        /* อัปเดตสไตล์สำหรับ "รายชื่อสมาชิกในแก๊ง" */
+        /* ซ่อนข้อความกำกับ (ตามภาพตัวอย่าง) */
         .search-description {
-            font-size: 1.2rem;
-            color: var(--light-text); 
-            font-family: 'Kanit', sans-serif;
-            margin-bottom: 15px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            text-shadow: none; 
-            display: none; /* ซ่อนข้อความนี้ไปก่อน เพราะภาพตัวอย่างไม่มีข้อความกำกับช่องค้นหาใน Header */
+            display: none; 
         }
 
         .search-box {
@@ -144,8 +137,8 @@
         }
 
         .search-button:hover {
-            color: var(--light-text); 
-            background-color: rgba(255, 255, 255, 0.1); 
+            color: var(--dark-bg); /* เปลี่ยนเป็นสีดำเมื่อโฮเวอร์ */
+            background-color: var(--search-white-border); /* เพิ่มสีพื้นหลังเป็นขาวทึบ */
         }
         /* ******************************************* */
 
@@ -178,7 +171,25 @@
             color: var(--neon-gold);
         }
 
-        /* ... (ส่วนที่เหลือของ Content, Footer, Responsive เหมือนเดิม) ... */
+        /* FOUNDER (ใช้สีทอง) */
+        .founder-section .category-title {
+            color: var(--neon-gold);
+            border-bottom-color: var(--neon-gold);
+        }
+
+        /* LEADER (ใช้สีแดง) */
+        .leader-section .category-title {
+            color: var(--neon-red); 
+            border-bottom-color: var(--neon-red);
+        }
+
+        /* MEMBER (ใช้สีขาว) */
+        .member-section .category-title {
+            color: var(--neon-white); 
+            border-bottom-color: var(--neon-white);
+        }
+
+
         .member-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -293,7 +304,6 @@
         <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
 
         <div class="search-container-wrapper">
-            <p class="search-description">รายชื่อสมาชิกในแก๊ง</p> 
             <div class="search-box">
                 <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
                 <button class="search-button">
