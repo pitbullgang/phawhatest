@@ -19,7 +19,7 @@ body {
 
 /* ================= 2. HEADER & BANNER ================= */
 .header-banner {
-    padding: 80px 50px 30px;
+    padding: 50px 50px 30px;
     background: #000;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     text-align: center;
