@@ -7,6 +7,8 @@
     --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
     --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
     --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
+    --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
+    --search-box-bg: #1a1a1a; /* สีพื้นหลังช่องค้นหา */
 }
 
 body {
@@ -60,12 +62,69 @@ body {
     letter-spacing: 2px;
 }
 
+/* ***** สไตล์สำหรับส่วนค้นหาที่เพิ่มเข้ามา ***** */
+.search-container {
+    margin-top: 25px; /* เว้นระยะห่างจาก subtitle */
+    padding: 0 20px;
+}
+
+.search-description {
+    font-size: 1.2rem;
+    color: var(--light-text);
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    max-width: 700px; /* ความกว้างสูงสุด */
+    margin: 0 auto;
+    background-color: var(--search-box-bg); /* สีพื้นหลังช่องค้นหาเข้มๆ */
+    border: 3px solid var(--search-red-border); /* ขอบสีแดงอ่อนๆ คล้ายในภาพ */
+    border-radius: 5px; /* มุมโค้งมน */
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.3); /* แสงเงาสีแดงอ่อนๆ */
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--light-text); /* สีตัวอักษรในช่องค้นหา */
+    outline: none; /* ลบขอบเวลาคลิก */
+    font-family: 'Kanit', sans-serif;
+}
+
+.search-input::placeholder {
+    color: #888; /* สีของข้อความ placeholder */
+}
+
+.search-button {
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: var(--light-text);
+    font-size: 1.2rem;
+    transition: color 0.2s;
+}
+
+.search-button:hover {
+    color: var(--search-red-border); /* เปลี่ยนสีไอคอนค้นหาเมื่อโฮเวอร์ */
+}
+/* ******************************************* */
+
+
 /* ================= 3. CONTENT & GRID ================= */
 .container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
+/* ... สไตล์ส่วนที่เหลือเหมือนเดิม ... */
 
 .divider {
     border: none;
@@ -183,6 +242,21 @@ body {
     .subtitle {
         font-size: 0.8rem;
     }
+    
+    /* Responsive สำหรับช่องค้นหา */
+    .search-box {
+        width: 100%; /* ให้ช่องค้นหาเต็มความกว้างใน mobile */
+    }
+
+    .search-input {
+        padding: 12px 15px; /* ลดขนาด padding */
+        font-size: 1rem;
+    }
+
+    .search-button {
+        padding: 12px 15px;
+    }
+    /* *********************************** */
 
     .container {
         margin: 20px auto;
