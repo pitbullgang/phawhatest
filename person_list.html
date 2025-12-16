@@ -17,7 +17,9 @@
             --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
             --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
             --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
-            --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
+            
+            /* ***** สีที่เปลี่ยนไปใช้สีขาว ***** */
+            --search-white-border: #ffffff; /* สีขาวสำหรับขอบค้นหา */
             --search-box-bg: #161616; /* พื้นหลังช่องค้นหาเข้มกว่า card-bg เล็กน้อย */
         }
 
@@ -37,8 +39,8 @@
             text-align: center;
             position: relative;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            /* ปรับ padding ด้านล่างให้เหมาะสมกับส่วนค้นหาที่ตามมา */
-            padding-bottom: 40px; 
+            /* เพิ่มพื้นที่ด้านล่างเพื่อรองรับช่องค้นหา */
+            padding-bottom: 70px; 
         }
 
         .back-home-btn {
@@ -75,13 +77,16 @@
         }
 
 
-        /* ***** สไตล์สำหรับส่วนค้นหาที่อัปเดตแล้ว ***** */
+        /* ***** สไตล์สำหรับส่วนค้นหาที่ถูกย้ายไปใน Header และเปลี่ยนเป็นสีขาว ***** */
         .search-container-wrapper {
+            /* จัดตำแหน่งให้อยู่ในแถบ Header */
+            position: absolute; 
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%); /* จัดกลางและดึงลงมาครึ่งหนึ่ง */
+            width: 90%; /* ให้ความกว้างครอบคลุมใน Header */
+            max-width: 700px;
             text-align: center;
-            padding: 0 20px;
-            /* ปรับ Margin เพื่อเว้นระยะจากเนื้อหา Founder */
-            margin-top: 0; 
-            margin-bottom: 40px; 
         }
 
         /* อัปเดตสไตล์สำหรับ "รายชื่อสมาชิกในแก๊ง" */
@@ -93,18 +98,23 @@
             font-weight: 300;
             letter-spacing: 1px;
             text-shadow: none; 
+            display: none; /* ซ่อนข้อความนี้ไปก่อน เพราะภาพตัวอย่างไม่มีข้อความกำกับช่องค้นหาใน Header */
         }
 
         .search-box {
             display: flex;
             align-items: center;
-            max-width: 700px; 
+            width: 100%;
             margin: 0 auto;
             background-color: var(--search-box-bg); 
-            border: 3px solid var(--search-red-border); 
+            
+            /* เปลี่ยนจากสีแดงเป็นสีขาว */
+            border: 3px solid var(--search-white-border); 
             border-radius: 5px; 
             overflow: hidden;
-            box-shadow: 0 0 8px rgba(255, 77, 77, 0.6), inset 0 0 5px rgba(255, 77, 77, 0.2); 
+            
+            /* เปลี่ยนเงาจากสีแดงเป็นสีขาวนีออน */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2); 
         }
 
         .search-input {
@@ -127,14 +137,15 @@
             border: none;
             padding: 15px 20px;
             cursor: pointer;
-            color: var(--search-red-border); 
+            /* เปลี่ยนสีไอคอนเป็นสีขาว */
+            color: var(--search-white-border); 
             font-size: 1.2rem;
             transition: color 0.2s, background-color 0.2s;
         }
 
         .search-button:hover {
             color: var(--light-text); 
-            background-color: rgba(255, 77, 77, 0.1); 
+            background-color: rgba(255, 255, 255, 0.1); 
         }
         /* ******************************************* */
 
@@ -142,7 +153,8 @@
         /* ================= 3. CONTENT & GRID ================= */
         .container {
             max-width: 1200px;
-            margin: 40px auto;
+            /* ปรับ margin ด้านบนให้เว้นระยะจากช่องค้นหาใน Header */
+            margin: 80px auto 40px; 
             padding: 0 20px;
         }
 
@@ -152,7 +164,8 @@
             margin: 40px 0;
         }
 
-        /* ตั้งค่า Title พื้นฐาน */
+        /* ... โค้ดส่วนอื่นๆ ที่เกี่ยวกับ FOUNDER, LEADER, MEMBER เหมือนเดิม ... */
+
         .category-title {
             font-family: 'Oswald', sans-serif;
             font-size: 1.8rem;
@@ -160,30 +173,12 @@
             letter-spacing: 4px;
             margin-bottom: 20px;
             padding-bottom: 5px;
-            border-bottom: 2px solid var(--neon-gold); /* Default: Gold */
+            border-bottom: 2px solid var(--neon-gold); 
             display: inline-block;
             color: var(--neon-gold);
         }
 
-        /* FOUNDER (ใช้สีทอง) */
-        .founder-section .category-title {
-            color: var(--neon-gold);
-            border-bottom-color: var(--neon-gold);
-        }
-
-        /* LEADER (ใช้สีแดง) */
-        .leader-section .category-title {
-            color: var(--neon-red); /* เปลี่ยนสี Title เป็นแดง */
-            border-bottom-color: var(--neon-red);
-        }
-
-        /* MEMBER (ใช้สีขาว) */
-        .member-section .category-title {
-            color: var(--neon-white); /* เปลี่ยนสี Title เป็นขาว */
-            border-bottom-color: var(--neon-white);
-        }
-
-
+        /* ... (ส่วนที่เหลือของ Content, Footer, Responsive เหมือนเดิม) ... */
         .member-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -231,7 +226,6 @@
             text-shadow: 0 0 5px var(--neon-gold);
         }
 
-
         /* ================= 4. FOOTER ================= */
         .footer {
             text-align: center;
@@ -264,7 +258,8 @@
             }
             
             .search-container-wrapper {
-                padding: 0 10px 30px; 
+                padding: 0 10px; 
+                width: 95%; 
             }
 
             .search-box {
@@ -281,7 +276,7 @@
             }
             
             .container {
-                margin: 20px auto;
+                margin: 60px auto 20px;
             }
 
             .category-title {
@@ -296,17 +291,18 @@
         <a href="index.html" class="back-home-btn"><i class="fas fa-chevron-left"></i> Back to PHAWHA</a>
         <h1 class="main-title">PERSON LIST</h1>
         <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
-    </div>
 
-    <div class="search-container-wrapper">
-        <p class="search-description">รายชื่อสมาชิกในแก๊ง</p> 
-        <div class="search-box">
-            <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
+        <div class="search-container-wrapper">
+            <p class="search-description">รายชื่อสมาชิกในแก๊ง</p> 
+            <div class="search-box">
+                <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
-    </div>
+        </div>
+
     <div class="container">
         <section class="member-category founder-section">
             <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
