@@ -8,7 +8,7 @@
     --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
     --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
     --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
-    --search-box-bg: #1a1a1a; /* สีพื้นหลังช่องค้นหา */
+    --search-box-bg: #0a0a0a; /* <--- ปรับให้เข้มเกือบดำเพื่อให้กลืนกับพื้นหลัง #000 และ #111 */
 }
 
 body {
@@ -29,62 +29,36 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.back-home-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: var(--sub-text);
-    text-decoration: none;
-    font-size: 1rem;
-    padding: 5px 10px;
-    border: 1px solid transparent;
-    transition: color 0.3s, border-color 0.3s;
-}
+/* ... (โค้ด Back button, main-title, subtitle ส่วนอื่นๆ เหมือนเดิม) ... */
 
-.back-home-btn:hover {
-    color: var(--light-text);
-    border-color: var(--sub-text);
-}
-
-.main-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3rem;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    color: var(--light-text);
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-.subtitle {
-    font-size: 1rem;
-    color: var(--sub-text);
-    margin-top: 10px;
-    letter-spacing: 2px;
-}
-
-/* ***** สไตล์สำหรับส่วนค้นหาที่เพิ่มเข้ามา ***** */
+/* ***** สไตล์สำหรับส่วนค้นหาที่อัปเดตแล้ว ***** */
 .search-container {
-    margin-top: 25px; /* เว้นระยะห่างจาก subtitle */
+    margin-top: 25px; 
     padding: 0 20px;
 }
 
+/* อัปเดตสไตล์สำหรับ "รายชื่อสมาชิกในแก๊ง" ให้เด่นขึ้น */
 .search-description {
     font-size: 1.2rem;
-    color: var(--light-text);
+    color: var(--neon-gold); /* ใช้สีทองหรือสีขาวเพื่อให้เด่น */
+    font-family: 'Kanit', sans-serif;
     margin-bottom: 10px;
-    font-weight: 300;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
 }
 
 .search-box {
     display: flex;
     align-items: center;
-    max-width: 700px; /* ความกว้างสูงสุด */
+    max-width: 700px; 
     margin: 0 auto;
-    background-color: var(--search-box-bg); /* สีพื้นหลังช่องค้นหาเข้มๆ */
-    border: 3px solid var(--search-red-border); /* ขอบสีแดงอ่อนๆ คล้ายในภาพ */
-    border-radius: 5px; /* มุมโค้งมน */
+    background-color: var(--search-box-bg); /* พื้นหลังเข้มมาก */
+    border: 3px solid var(--search-red-border); /* ขอบสีแดง */
+    border-radius: 5px; 
     overflow: hidden;
-    box-shadow: 0 0 10px rgba(255, 77, 77, 0.3); /* แสงเงาสีแดงอ่อนๆ */
+    /* เพิ่มเงาสีแดงให้ดูเป็นนีออน */
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5); 
 }
 
 .search-input {
@@ -93,13 +67,13 @@ body {
     font-size: 1.2rem;
     background: none;
     border: none;
-    color: var(--light-text); /* สีตัวอักษรในช่องค้นหา */
-    outline: none; /* ลบขอบเวลาคลิก */
+    color: var(--light-text); 
+    outline: none; 
     font-family: 'Kanit', sans-serif;
 }
 
 .search-input::placeholder {
-    color: #888; /* สีของข้อความ placeholder */
+    color: #888; 
 }
 
 .search-button {
@@ -107,162 +81,36 @@ body {
     border: none;
     padding: 15px 20px;
     cursor: pointer;
-    color: var(--light-text);
+    /* ปรับสีไอคอนค้นหาให้เป็นสีแดงนีออน */
+    color: var(--search-red-border);
     font-size: 1.2rem;
     transition: color 0.2s;
 }
 
 .search-button:hover {
-    color: var(--search-red-border); /* เปลี่ยนสีไอคอนค้นหาเมื่อโฮเวอร์ */
+    color: var(--light-text); 
 }
 /* ******************************************* */
 
 
 /* ================= 3. CONTENT & GRID ================= */
-.container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-/* ... สไตล์ส่วนที่เหลือเหมือนเดิม ... */
+/* ... (ส่วนนี้เหมือนเดิม) ... */
 
-.divider {
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin: 40px 0;
-}
-
-/* ตั้งค่า Title พื้นฐาน */
-.category-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.8rem;
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid var(--neon-gold); /* Default: Gold */
-    display: inline-block;
-    color: var(--neon-gold);
-}
-
-/* FOUNDER (ใช้สีทอง) */
-.founder-section .category-title {
-    color: var(--neon-gold);
-    border-bottom-color: var(--neon-gold);
-}
-
-/* LEADER (ใช้สีแดง) */
-.leader-section .category-title {
-    color: var(--neon-red); /* เปลี่ยนสี Title เป็นแดง */
-    border-bottom-color: var(--neon-red);
-}
-
-/* MEMBER (ใช้สีขาว) */
-.member-section .category-title {
-    color: var(--neon-white); /* เปลี่ยนสี Title เป็นขาว */
-    border-bottom-color: var(--neon-white);
-}
-
-
-.member-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-}
-
-.member-card {
-    background-color: var(--card-bg);
-    padding: 15px;
-    text-align: center;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.member-card:hover {
-    background-color: #2a2a2a;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-/* เอฟเฟกต์เฉพาะ Founder/Leader/Member */
-.founder-section .member-card {
-    border-left: 5px solid var(--neon-gold);
-}
-
-/* LEADER: ขอบซ้ายและสีตัวอักษรเป็นสีแดง */
-.is-leader {
-    border-left: 5px solid var(--neon-red); /* เปลี่ยนขอบเป็นสีแดง */
-    color: var(--neon-red); /* เปลี่ยนสีตัวอักษรเป็นสีแดง */
-}
-
-/* MEMBER: ขอบซ้ายเป็นสีขาว */
-.member-section .member-card {
-    border-left: 5px solid var(--neon-white); /* กำหนดขอบเป็นสีขาว */
-    color: var(--neon-white); /* กำหนดสีตัวอักษรเป็นสีขาว */
-}
-
-
-.neon-gold {
-    color: var(--neon-gold);
-    text-shadow: 0 0 5px var(--neon-gold);
-}
-
-
-/* ================= 4. FOOTER ================= */
-.footer {
-    text-align: center;
-    font-size: 0.7rem;
-    color: #444;
-    padding: 20px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #000;
-}
 
 /* ================= 5. RESPONSIVE ================= */
 @media (max-width: 768px) {
-    .header-banner {
-        padding: 60px 20px 20px;
-    }
-
-    .back-home-btn {
-        top: 15px;
-        left: 10px;
-    }
-
-    .main-title {
-        font-size: 2rem;
-    }
-
-    .subtitle {
-        font-size: 0.8rem;
-    }
+    /* ... (โค้ด responsive เดิม) ... */
     
-    /* Responsive สำหรับช่องค้นหา */
     .search-box {
-        width: 100%; /* ให้ช่องค้นหาเต็มความกว้างใน mobile */
+        width: 100%; 
     }
 
     .search-input {
-        padding: 12px 15px; /* ลดขนาด padding */
+        padding: 12px 15px; 
         font-size: 1rem;
     }
 
     .search-button {
         padding: 12px 15px;
-    }
-    /* *********************************** */
-
-    .container {
-        margin: 20px auto;
-    }
-
-    .category-title {
-        font-size: 1.5rem;
     }
 }
