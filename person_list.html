@@ -37,7 +37,8 @@
             text-align: center;
             position: relative;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 50px; /* เพิ่ม padding ด้านล่างเล็กน้อยเพื่อเว้นระยะจากส่วนค้นหา */
+            /* ปรับ padding ด้านล่างให้เหมาะสมกับส่วนค้นหาที่ตามมา */
+            padding-bottom: 40px; 
         }
 
         .back-home-btn {
@@ -77,19 +78,21 @@
         /* ***** สไตล์สำหรับส่วนค้นหาที่อัปเดตแล้ว ***** */
         .search-container-wrapper {
             text-align: center;
-            padding: 0 20px 40px; /* เพิ่ม padding ด้านล่างเพื่อเว้นระยะจากส่วน content */
-            margin-top: -30px; /* ดึงขึ้นมาเล็กน้อยเพื่อให้ใกล้กับ header */
+            padding: 0 20px;
+            /* ปรับ Margin เพื่อเว้นระยะจากเนื้อหา Founder */
+            margin-top: 0; 
+            margin-bottom: 40px; 
         }
 
         /* อัปเดตสไตล์สำหรับ "รายชื่อสมาชิกในแก๊ง" */
         .search-description {
             font-size: 1.2rem;
-            color: var(--light-text); /* ใช้สีขาวเพื่อให้สอดคล้องกับ PERSON LIST */
+            color: var(--light-text); 
             font-family: 'Kanit', sans-serif;
             margin-bottom: 15px;
             font-weight: 300;
             letter-spacing: 1px;
-            text-shadow: none; /* ลบเงาออกเพื่อให้ดูสะอาดขึ้น */
+            text-shadow: none; 
         }
 
         .search-box {
@@ -97,15 +100,10 @@
             align-items: center;
             max-width: 700px; 
             margin: 0 auto;
-            /* พื้นหลังเข้ม แต่ไม่ใช่ดำสนิท */
             background-color: var(--search-box-bg); 
-            
-            /* ขอบสีแดง 3px */
             border: 3px solid var(--search-red-border); 
             border-radius: 5px; 
             overflow: hidden;
-            
-            /* ปรับเงาให้ดูเป็นนีออนและดุดัน */
             box-shadow: 0 0 8px rgba(255, 77, 77, 0.6), inset 0 0 5px rgba(255, 77, 77, 0.2); 
         }
 
@@ -121,7 +119,7 @@
         }
 
         .search-input::placeholder {
-            color: #999; /* ปรับสี placeholder ให้ดูสว่างกว่าเดิมเล็กน้อย */
+            color: #999; 
         }
 
         .search-button {
@@ -136,7 +134,7 @@
 
         .search-button:hover {
             color: var(--light-text); 
-            background-color: rgba(255, 77, 77, 0.1); /* เพิ่มสีพื้นหลังอ่อน ๆ เมื่อโฮเวอร์ */
+            background-color: rgba(255, 77, 77, 0.1); 
         }
         /* ******************************************* */
 
@@ -217,14 +215,14 @@
 
         /* LEADER: ขอบซ้ายและสีตัวอักษรเป็นสีแดง */
         .is-leader {
-            border-left: 5px solid var(--neon-red); /* เปลี่ยนขอบเป็นสีแดง */
-            color: var(--neon-red); /* เปลี่ยนสีตัวอักษรเป็นสีแดง */
+            border-left: 5px solid var(--neon-red); 
+            color: var(--neon-red); 
         }
 
         /* MEMBER: ขอบซ้ายเป็นสีขาว */
         .member-section .member-card {
-            border-left: 5px solid var(--neon-white); /* กำหนดขอบเป็นสีขาว */
-            color: var(--neon-white); /* กำหนดสีตัวอักษรเป็นสีขาว */
+            border-left: 5px solid var(--neon-white); 
+            color: var(--neon-white); 
         }
 
 
@@ -266,7 +264,7 @@
             }
             
             .search-container-wrapper {
-                padding: 0 10px 30px; /* ปรับ padding ในมือถือ */
+                padding: 0 10px 30px; 
             }
 
             .search-box {
