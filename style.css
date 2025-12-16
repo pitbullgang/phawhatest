@@ -1,1 +1,159 @@
+/* ================= SETTINGS ================= */
+:root {
+    --primary-color: #ff3333; /* สีแดงสดแบบ Toxic */
+    --dark-bg: #050505;
+    --font-main: 'Montserrat', sans-serif; /* ฟอนต์หัวข้อภาษาอังกฤษหนาๆ */
+    --font-sub: 'Kanit', sans-serif;
+}
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-sub);
+    background-color: var(--dark-bg);
+    color: white;
+    height: 100vh;
+    overflow: hidden; /* ห้ามเลื่อนหน้าจอ */
+    -webkit-user-select: none; user-select: none; /* ห้ามคลุมดำ */
+}
+
+/* ================= BACKGROUND EFFECTS ================= */
+/* 1. วิดีโอพื้นหลัง */
+#bg-video {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; z-index: -5;
+    filter: grayscale(80%) brightness(0.4); /* ทำให้มืดและซีดลง */
+    transform: scale(1.1); /* ขยายเล็กน้อยเพื่อลบขอบ */
+}
+
+/* 2. เลเยอร์มืด (Vignette) ทำให้ตรงกลางเด่น */
+.dark-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.9) 80%);
+    z-index: -4;
+}
+
+/* 3. แสงสะท้อนสร้างมิติ (Ambient Light) */
+.ambient-light {
+    position: fixed; top: 50%; left: 50%;
+    width: 200vw; height: 200vh;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255, 51, 51, 0.15) 0%, transparent 60%);
+    mix-blend-mode: color-dodge; /* ทำให้แสงดูฟุ้งๆ */
+    pointer-events: none; z-index: -3;
+    animation: pulseLight 8s ease-in-out infinite alternate;
+}
+@keyframes pulseLight {
+    0% { opacity: 0.5; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* 4. สะเก็ดไฟลอย (Floating Embers) */
+.floating-embers {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -2; overflow: hidden; pointer-events: none;
+}
+.floating-embers span {
+    position: absolute; bottom: -50px;
+    width: 4px; height: 4px; background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color);
+    animation: floatUp linear infinite; opacity: 0;
+}
+/* ตั้งค่าการลอยแบบสุ่ม */
+.floating-embers span:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
+.floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 6px; height: 6px; }
+.floating-embers span:nth-child(3) { left: 35%; animation-duration: 5s; animation-delay: 4s; }
+.floating-embers span:nth-child(4) { left: 50%; animation-duration: 8s; animation-delay: 1s; width: 5px; height: 5px; }
+.floating-embers span:nth-child(5) { left: 65%; animation-duration: 6s; animation-delay: 3s; }
+.floating-embers span:nth-child(6) { left: 80%; animation-duration: 9s; animation-delay: 5s; }
+.floating-embers span:nth-child(7) { left: 90%; animation-duration: 11s; animation-delay: 0.5s; width: 3px; height: 3px; }
+/* ...เพิ่มได้อีก... */
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}
+
+/* ================= MAIN CONTENT ================= */
+.hero-section {
+    height: 100vh; display: flex; justify-content: center; align-items: center;
+    text-align: center; z-index: 10; position: relative;
+}
+.content-box {
+    padding: 40px;
+    /* backdrop-filter: blur(5px); */ /* ถ้าอยากให้พื้นหลังเบลอๆ เปิดใช้อันนี้ */
+}
+
+/* Main Title: Phawha */
+.main-title {
+    font-family: var(--font-main);
+    font-size: 6rem; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 4px;
+    color: #fff;
+    /* แสงนีออนสีแดง */
+    text-shadow: 0 0 10px rgba(255, 51, 51, 0.8),
+                 0 0 30px rgba(255, 51, 51, 0.5),
+                 0 0 70px rgba(255, 51, 51, 0.3);
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/* Subtitle: Bestoftoxicboys */
+.sub-title {
+    font-family: var(--font-sub);
+    font-size: 1.2rem; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 8px;
+    color: var(--primary-color);
+    opacity: 0.8; margin-bottom: 60px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+/* ================= CYBER BUTTON ================= */
+.btn-container { display: flex; justify-content: center; }
+
+.cyber-btn {
+    position: relative;
+    text-decoration: none; color: var(--primary-color);
+    font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
+    padding: 15px 50px;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    text-transform: uppercase;
+    overflow: hidden; transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    /* เงาแสงด้านใน */
+    box-shadow: inset 0 0 20px rgba(255, 51, 51, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.btn-content {
+    position: relative; z-index: 2; display: flex; align-items: center; gap: 10px;
+}
+
+/* เอฟเฟกต์เมื่อเอาเมาส์ชี้ปุ่ม */
+.cyber-btn:hover {
+    color: #fff;
+    background: var(--primary-color);
+    box-shadow: 0 0 30px var(--primary-color), inset 0 0 30px var(--primary-color);
+    transform: scale(1.05); letter-spacing: 4px;
+}
+
+/* ลูกเล่น Glitch วิ่งผ่านปุ่ม */
+.btn-glitch {
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transform: skewX(-25deg); z-index: 1;
+    transition: 0.5s;
+}
+.cyber-btn:hover .btn-glitch { left: 100%; }
+
+/* Responsive มือถือ */
+@media (max-width: 768px) {
+    .main-title { font-size: 3.5rem; letter-spacing: 2px; }
+    .sub-title { font-size: 0.9rem; letter-spacing: 4px; }
+    .cyber-btn { padding: 12px 30px; font-size: 1rem; width: 80%; }
+}
