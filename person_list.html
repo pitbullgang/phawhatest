@@ -69,16 +69,16 @@
             letter-spacing: 5px;
             color: var(--light-text);
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            /* ขยับขึ้น: ลด margin-top (ถ้ามี) หรือใช้ margin-top ค่าลบถ้าจำเป็น */
             margin-top: 0; 
         }
 
         .subtitle {
             font-size: 1rem;
             color: var(--sub-text);
-            /* *** แก้ไข: ปรับ margin-top เป็น 0px เพื่อให้ติดขึ้นไปอีก *** */
-            margin-top: 0px; 
+            /* ขยับขึ้น: ลด margin-top ลง */
+            margin-top: 5px; 
             letter-spacing: 2px;
-            /* เว้นระยะห่างจากช่องค้นหาเล็กน้อย */
             margin-bottom: 30px; 
         }
 
@@ -107,4 +107,238 @@
             background-color: var(--search-box-bg); 
             
             /* ขอบสีขาว */
-            border: 3px solid var(--search-
+            border: 3px solid var(--search-white-border); 
+            border-radius: 5px; 
+            overflow: hidden;
+            
+            /* เงาสีขาวนีออน */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.6), inset 0 0 5px rgba(255, 255, 255, 0.2); 
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+            color: var(--light-text); 
+            outline: none; 
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .search-input::placeholder {
+            color: #999; 
+        }
+
+        .search-button {
+            background: none;
+            border: none;
+            padding: 15px 20px;
+            cursor: pointer;
+            /* ไอคอนสีขาว */
+            color: var(--search-white-border); 
+            font-size: 1.2rem;
+            transition: color 0.2s, background-color 0.2s;
+        }
+
+        .search-button:hover {
+            color: var(--dark-bg); 
+            background-color: var(--search-white-border); 
+        }
+        /* ******************************************* */
+
+
+        /* ================= 3. CONTENT & GRID ================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 40px; 
+            padding: 0 20px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 40px 0;
+        }
+
+        .category-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid var(--neon-gold); 
+            display: inline-block;
+            color: var(--neon-gold);
+        }
+        
+        /* ... (โค้ดส่วนอื่นๆ ของ Founder, Leader, Member เหมือนเดิม) ... */
+        .founder-section .category-title {
+            color: var(--neon-gold);
+            border-bottom-color: var(--neon-gold);
+        }
+        .leader-section .category-title {
+            color: var(--neon-red); 
+            border-bottom-color: var(--neon-red);
+        }
+        .member-section .category-title {
+            color: var(--neon-white); 
+            border-bottom-color: var(--neon-white);
+        }
+        .member-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .member-card {
+            background-color: var(--card-bg);
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .member-card:hover {
+            background-color: #2a2a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .founder-section .member-card {
+            border-left: 5px solid var(--neon-gold);
+        }
+        .is-leader {
+            border-left: 5px solid var(--neon-red); 
+            color: var(--neon-red); 
+        }
+        .member-section .member-card {
+            border-left: 5px solid var(--neon-white); 
+            color: var(--neon-white); 
+        }
+        .neon-gold {
+            color: var(--neon-gold);
+            text-shadow: 0 0 5px var(--neon-gold);
+        }
+
+        /* ================= 4. FOOTER ================= */
+        .footer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #444;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #000;
+        }
+
+        /* ================= 5. RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .header-banner {
+                padding: 40px 20px 20px; /* ปรับลด padding ด้านบน */
+            }
+
+            .main-title {
+                font-size: 2.5rem; /* ปรับขนาดสำหรับมือถือ */
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+            
+            .search-container-wrapper {
+                padding: 0 10px; 
+                width: 95%; 
+                margin-top: -60px; 
+            }
+
+            .search-box {
+                width: 100%; 
+            }
+
+            .search-input {
+                padding: 12px 15px; 
+                font-size: 1rem;
+            }
+
+            .search-button {
+                padding: 12px 15px;
+            }
+            
+            .container {
+                margin: 0 auto 20px;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <a href="index.html" class="back-home-btn"><i class="fas fa-chevron-left"></i> Back to PHAWHA</a>
+        <h1 class="main-title">PERSON LIST</h1>
+        <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
+    </div>
+
+    <div class="search-container-wrapper">
+        <div class="search-box">
+            <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <section class="member-category founder-section">
+            <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
+            <div class="member-grid">
+                <div class="member-card">KEN</div>
+                <div class="member-card">MOND</div>
+                </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="member-category leader-section">
+            <h2 class="category-title">LEADER</h2>
+            <div class="member-grid">
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> A</div>
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> D</div>
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> C</div>
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> B</div>
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> F</div>
+                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> G</div>
+                </div>
+        </section>
+
+        <hr class="divider">
+
+        <section class="member-category member-section">
+            <h2 class="category-title">MEMBER</h2>
+            <div class="member-grid">
+                <div class="member-card">A</div>
+                <div class="member-card">B</div>
+                <div class="member-card">C</div>
+                <div class="member-card">D</div>
+                <div class="member-card">E</div>
+                <div class="member-card">F</div>
+                <div class="member-card">G</div>
+                <div class="member-card">M</div>
+                </div>
+        </section>
+    </div>
+
+    <div class="footer">
+        © DESIGNED BY Pitbull.
+    </div>
+
+</body>
+</html>
