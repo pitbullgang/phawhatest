@@ -1,39 +1,214 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phawha | Bestoftoxicboys</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700;900&family=Montserrat:wght@800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
 
     <video autoplay muted loop playsinline id="bg-video">
-        <source src="PITBULL.mp4" type="video/mp4">
+        <source src="pain.mp4" type="video/mp4">
     </video>
     
     <div class="dark-overlay"></div>
-    <div class="ambient-light"></div> <div class="floating-embers"> <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-    </div>
+    ```
 
-    <main class="hero-section">
-        <div class="content-box">
-            <h1 class="main-title glitch-effect" data-text="Phawha">Phawha</h1>
-            <p class="sub-title">Bestoftoxicboys</p>
+## 2. 🎨 การแก้ไขโค้ด CSS (`style.css`)
 
-            <div class="btn-container">
-                <a href="person/index.html" class="cyber-btn">
-                    <span class="btn-content">
-                        <i class='bx bxs-user-badge'></i> NAME LIST
-                    </span>
-                    <span class="btn-glitch"></span>
-                </a>
-            </div>
-        </div>
-    </main>
+จากการสนทนาก่อนหน้านี้ โค้ด CSS ที่คุณส่งมาล่าสุดคือโค้ดสำหรับ **พื้นหลังแบบสีดำล้วนที่มีเอฟเฟกต์แสงและเม็ดทราย**
 
-    </body>
-</html>
+ตอนนี้คุณต้องการใช้ **พื้นหลังวิดีโอ `pain.mp4`** แทน ดังนั้นเราจะ **นำโค้ดวิดีโอพื้นหลัง** มาใส่ และ **ลบ/ปิดการใช้งาน** เอฟเฟกต์แสงและ Noise ที่คุณสร้างไว้ก่อนหน้าออกไป
+
+### โค้ด CSS ใหม่ที่แนะนำสำหรับ `style.css`
+
+โค้ดนี้จะ:
+1.  **กำหนดลักษณะวิดีโอ** ให้เป็นพื้นหลังแบบเต็มหน้าจอ (`#bg-video`).
+2.  **ทำให้วิดีโอมืดลง** เพื่อให้ข้อความ "Phawha" และปุ่มอ่านง่ายขึ้น (`filter: brightness(30%) grayscale(50%)`).
+3.  **เก็บองค์ประกอบพื้นหลังเดิม** ที่คุณอาจจะใช้ เช่น `.dark-overlay`, `.ambient-light`, และ `.floating-embers` (หากคุณต้องการเก็บสะเก็ดไฟไว้) แต่เราจะ **ปิดการใช้งาน** `.dark-overlay` และ `.ambient-light` ชั่วคราว เนื่องจากวิดีโอพื้นหลังได้ทำหน้าที่แทนแล้ว
+4.  **ใช้โค้ดปุ่มและข้อความหลัก** ที่คุณกำหนดไว้
+
+```css
+/* ================= SETTINGS (ตั้งค่า) ================= */
+:root {
+    --primary-color: #ffffff; 
+    --dark-bg: #000000;
+    --font-main: 'Montserrat', sans-serif;
+    --font-sub: 'Kanit', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-sub);
+    background-color: var(--dark-bg);
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    -webkit-user-select: none; user-select: none;
+    position: relative;
+}
+
+/* ================= NEW BACKGROUND: VIDEO (พื้นหลังวิดีโอ) ================= */
+
+#bg-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* ให้อยู่ด้านหลังเนื้อหาทั้งหมด */
+    transform: translate(-50%, -50%); /* จัดวิดีโอให้อยู่ตรงกลางเป๊ะๆ */
+    background-size: cover;
+    /* ปรับความมืดและสีเทาเพื่อให้ข้อความสีขาวอ่านง่าย */
+    filter: brightness(30%) grayscale(50%); 
+}
+
+/* ปิด overlay ที่ไม่จำเป็น (เพราะวิดีโอทำหน้าที่แทนแล้ว) */
+.dark-overlay, .ambient-light { 
+    display: none; 
+}
+
+
+/* ================= FLOATING EMBERS (สะเก็ดไฟลอย) ================= */
+/* *เก็บสะเก็ดไฟไว้ด้านหน้าวิดีโอ (z-index: -1)* */
+.floating-embers {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; 
+    overflow: hidden; pointer-events: none;
+}
+.floating-embers span {
+    position: absolute; bottom: -50px;
+    width: 3px; height: 3px; background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 10px rgba(255,255,255,0.4);
+    animation: floatUp linear infinite; opacity: 0;
+}
+/* ตั้งค่าการลอย (ใช้ค่าเดิม) */
+.floating-embers span:nth-child(1) { left: 10%; animation-duration: 7s; animation-delay: 0s; }
+.floating-embers span:nth-child(2) { left: 20%; animation-duration: 10s; animation-delay: 2s; width: 4px; height: 4px; }
+.floating-embers span:nth-child(3) { left: 35%; animation-duration: 5s; animation-delay: 4s; }
+.floating-embers span:nth-child(4) { left: 50%; animation-duration: 8s; animation-delay: 1s; width: 3px; height: 3px; }
+.floating-embers span:nth-child(5) { left: 65%; animation-duration: 6s; animation-delay: 3s; }
+.floating-embers span:nth-child(6) { left: 80%; animation-duration: 9s; animation-delay: 5s; }
+.floating-embers span:nth-child(7) { left: 90%; animation-duration: 11s; animation-delay: 0.5s; width: 2px; height: 2px; }
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.4; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}
+
+
+/* ================= MAIN CONTENT (เนื้อหาหลัก) ================= */
+.hero-section {
+    height: 100vh; display: flex; justify-content: center; align-items: center;
+    text-align: center; z-index: 10; position: relative;
+}
+.content-box { padding: 40px; }
+
+/* Main Title: Phawha */
+.main-title {
+    font-family: var(--font-main);
+    font-size: 6rem; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 4px;
+    color: #fff;
+    /* เพิ่ม Glitch Effect */
+    position: relative;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+                0 0 30px rgba(255, 255, 255, 0.6),
+                0 0 70px rgba(255, 255, 255, 0.4);
+    margin-bottom: 10px;
+    margin-top: 5%;
+}
+
+/* Subtitle */
+.sub-title {
+    font-family: var(--font-sub);
+    font-size: 1.2rem; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 8px;
+    color: var(--primary-color);
+    opacity: 0.8; margin-bottom: 60px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+/* ================= CYBER BUTTON (ปุ่ม) ================= */
+.btn-container { display: flex; justify-content: center; }
+
+.cyber-btn {
+    position: relative;
+    text-decoration: none; color: var(--primary-color);
+    font-weight: 700; font-size: 1.2rem; letter-spacing: 2px;
+    padding: 15px 50px;
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    /* ... เพิ่มส่วน Glitch Effect สำหรับปุ่มที่ขาดหายไป ... */
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+.cyber-btn:hover {
+    box-shadow: 0 0 15px var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.cyber-btn .btn-content { z-index: 2; position: relative; display: flex; align-items: center; gap: 10px; }
+.cyber-btn .btn-glitch {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    transition: opacity 0.3s ease-in-out;
+}
+.cyber-btn:hover .btn-glitch { opacity: 1; }
+.cyber-btn .btn-glitch::before, .cyber-btn .btn-glitch::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--dark-bg);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    animation: glitch-anim 0.5s infinite alternate;
+}
+.cyber-btn .btn-glitch::after {
+    background: var(--primary-color);
+    animation: glitch-anim-2 0.5s infinite alternate;
+}
+
+/* Animation Glitch Effect (ใช้สำหรับปุ่มและตัวหนังสือ) */
+@keyframes glitch-anim {
+    0% { transform: translate(1px, 1px); }
+    50% { transform: translate(-1px, -1px); }
+    100% { transform: translate(1px, 1px); }
+}
+@keyframes glitch-anim-2 {
+    0% { transform: translate(-1px, -1px); }
+    50% { transform: translate(1px, 1px); }
+    100% { transform: translate(-1px, -1px); }
+}
+
+/* Glitch Effect สำหรับ H1 (Title) */
+.main-title.glitch-effect::before, .main-title.glitch-effect::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    color: var(--primary-color);
+    text-shadow: none;
+    mix-blend-mode: difference;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.main-title.glitch-effect::before {
+    transform: translate(4px, 4px);
+    animation: title-glitch 4s infinite linear alternate-reverse;
+}
+.main-title.glitch-effect::after {
+    transform: translate(-4px, -4px);
+    animation: title-glitch-2 4s infinite linear alternate-reverse;
+}
+@keyframes title-glitch {
+    0% { clip-path: inset(10% 0 90% 0); transform: translate(4px, 4px); }
+    10% { clip-path: inset(40% 0 60% 0); transform: translate(-4px, -4px); }
+    20% { clip-path: inset(60% 0 40% 0); transform: translate(4px, 4px); }
+    100% { clip-path: inset(10% 0 90% 0); transform: translate(4px, 4px); }
+}
+@keyframes title-glitch-2 {
+    0% { clip-path: inset(20% 0 80% 0); transform: translate(-4px, -4px); }
+    15% { clip-path: inset(50% 0 50% 0); transform: translate(4px, 4px); }
+    25% { clip-path: inset(80% 0 20% 0); transform: translate(-4px, -4px); }
+    100% { clip-path: inset(20% 0 80% 0); transform: translate(-4px, -4px); }
+}
