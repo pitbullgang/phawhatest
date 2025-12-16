@@ -8,6 +8,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <link rel="stylesheet" href="person_list.css"> 
+
+    <style>
+        /* เพิ่มสไตล์สำหรับลิงก์ใน member-card เพื่อให้คลิกได้ทั้งบล็อก และตั้งค่าสีของลิงก์ */
+        .member-card a {
+            text-decoration: none; /* ลบขีดเส้นใต้ออก */
+            display: block; /* ทำให้ลิงก์ครอบคลุมพื้นที่ทั้งหมดของ div */
+            width: 100%;
+            height: 100%;
+            padding: 15px; 
+            margin: -15px; /* ชดเชย padding */
+            box-sizing: border-box; 
+            transition: color 0.3s;
+            /* กำหนดสีตัวอักษรเริ่มต้นตามประเภทสมาชิก */
+            color: var(--neon-white); 
+        }
+
+        .founder-section .member-card a {
+            color: var(--neon-gold);
+        }
+        
+        .is-leader a {
+            color: var(--neon-red) !important; 
+        }
+        
+        .member-section .member-card a {
+            color: var(--neon-white);
+        }
+
+        /* ต้องลบ padding เดิมของ .member-card ออก เพื่อให้ลิงก์ควบคุมพื้นที่ทั้งหมด */
+        .member-card {
+            padding: 0; /* ลบ padding เดิมออก */
+        }
+    </style>
 </head>
 <body>
 
@@ -25,12 +58,18 @@
                 </button>
             </div>
         </div>
-    </div> <div class="container">
+    </div>
+
+    <div class="container">
         <section class="member-category founder-section">
             <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
             <div class="member-grid">
-                <div class="member-card">KEN</div>
-                <div class="member-card">MOND</div>
+                <div class="member-card">
+                    <a href="https://www.facebook.com/Phawharakkaimaipen" target="_blank">KEN</a>
+                </div>
+                <div class="member-card">
+                    <a href="https://www.facebook.com/Phawharakkaimaipen" target="_blank">MOND</a>
+                </div>
             </div>
         </section>
 
@@ -39,12 +78,24 @@
         <section class="member-category leader-section">
             <h2 class="category-title">LEADER</h2>
             <div class="member-grid">
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> A</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> D</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> C</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> B</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> F</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> G</div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_a_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> A</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_d_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> D</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_c_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> C</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_b_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> B</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_f_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> F</a>
+                </div>
+                <div class="member-card is-leader">
+                    <a href="https://facebook.com/leader_g_placeholder" target="_blank"><i class="fas fa-hand-fist"></i> G</a>
+                </div>
             </div>
         </section>
 
@@ -53,14 +104,14 @@
         <section class="member-category member-section">
             <h2 class="category-title">MEMBER</h2>
             <div class="member-grid">
-                <div class="member-card">A</div>
-                <div class="member-card">B</div>
-                <div class="member-card">C</div>
-                <div class="member-card">D</div>
-                <div class="member-card">E</div>
-                <div class="member-card">F</div>
-                <div class="member-card">G</div>
-                <div class="member-card">M</div>
+                <div class="member-card"><a href="https://facebook.com/member_a_placeholder" target="_blank">A</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_b_placeholder" target="_blank">B</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_c_placeholder" target="_blank">C</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_d_placeholder" target="_blank">D</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_e_placeholder" target="_blank">E</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_f_placeholder" target="_blank">F</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_g_placeholder" target="_blank">G</a></div>
+                <div class="member-card"><a href="https://facebook.com/member_m_placeholder" target="_blank">M</a></div>
             </div>
         </section>
     </div>
