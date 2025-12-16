@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHAWHA | PERSON LIST</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -37,10 +37,10 @@
             background: #000;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             text-align: center;
-            position: relative; /* สำคัญ: เพื่อให้ position: absolute ของ search-box ทำงานได้ */
+            position: relative; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            /* เพิ่มพื้นที่ด้านล่าง เพื่อให้ช่องค้นหามีที่ว่าง */
-            padding-bottom: 70px; 
+            /* ลบ padding-bottom ที่เคยเพิ่มสำหรับ absolute positioning ออก */
+            padding-bottom: 40px; 
         }
 
         .back-home-btn {
@@ -77,19 +77,17 @@
         }
 
 
-        /* ***** สไตล์สำหรับส่วนค้นหาที่ถูกย้ายไปใน Header และเปลี่ยนเป็นสีขาว ***** */
+        /* ***** สไตล์สำหรับส่วนค้นหาที่ถูกย้ายออกมาแต่ใช้ Margin ดึงทับซ้อน Header ***** */
         .search-container-wrapper {
-            /* จัดตำแหน่งให้อยู่กลางด้านล่างของ Header */
-            position: absolute; 
-            bottom: 0;
-            left: 50%;
-            transform: translate(-50%, 50%); /* จัดกลางและดึงลงมาครึ่งหนึ่งของความสูงตัวเอง */
-            width: 90%; 
-            max-width: 700px;
             text-align: center;
+            /* ดึงช่องค้นหาขึ้นไปทับซ้อนส่วน Header */
+            margin-top: -30px; 
+            margin-bottom: 40px; /* เว้นระยะจาก FOUNDER */
+            padding: 0 20px;
+            z-index: 10; /* ให้ช่องค้นหาอยู่ด้านบนสุด */
         }
 
-        /* ซ่อนข้อความกำกับ (ตามภาพตัวอย่าง) */
+        /* ซ่อนข้อความกำกับ */
         .search-description {
             display: none; 
         }
@@ -97,6 +95,7 @@
         .search-box {
             display: flex;
             align-items: center;
+            max-width: 700px;
             width: 100%;
             margin: 0 auto;
             background-color: var(--search-box-bg); 
@@ -146,8 +145,8 @@
         /* ================= 3. CONTENT & GRID ================= */
         .container {
             max-width: 1200px;
-            /* ปรับ margin ด้านบนให้เว้นระยะจากช่องค้นหาใน Header */
-            margin: 80px auto 40px; 
+            /* ลบ Margin ด้านบนออก เพราะ search-container-wrapper มี margin-bottom แล้ว */
+            margin: 0 auto 40px; 
             padding: 0 20px;
         }
 
@@ -156,8 +155,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin: 40px 0;
         }
-
-        /* ... โค้ดส่วนอื่นๆ ที่เกี่ยวกับ FOUNDER, LEADER, MEMBER เหมือนเดิม ... */
 
         .category-title {
             font-family: 'Oswald', sans-serif;
@@ -271,6 +268,7 @@
             .search-container-wrapper {
                 padding: 0 10px; 
                 width: 95%; 
+                margin-top: -25px; 
             }
 
             .search-box {
@@ -287,7 +285,7 @@
             }
             
             .container {
-                margin: 60px auto 20px;
+                margin: 0 auto 20px;
             }
 
             .category-title {
@@ -302,17 +300,16 @@
         <a href="index.html" class="back-home-btn"><i class="fas fa-chevron-left"></i> Back to PHAWHA</a>
         <h1 class="main-title">PERSON LIST</h1>
         <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
+    </div>
 
-        <div class="search-container-wrapper">
-            <div class="search-box">
-                <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
-                <button class="search-button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+    <div class="search-container-wrapper">
+        <div class="search-box">
+            <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
-        </div>
-
+    </div>
     <div class="container">
         <section class="member-category founder-section">
             <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
