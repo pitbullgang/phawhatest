@@ -1,74 +1,110 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHAWHA | PERSON LIST</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400&family=Oswald:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+/* ================= 1. BASE STYLES & COLOR SETTINGS ================= */
+:root {
+    --dark-bg: #111111;
+    --card-bg: #1e1e1e;
+    --light-text: #ffffff;
+    --sub-text: #aaaaaa;
+    --neon-red: #ff3333; /* สีแดงสำหรับ LEADER */
+    --neon-white: #ffffff; /* สีขาวสำหรับ MEMBER */
+    --neon-gold: #ffcc00; /* สีทองสำหรับ FOUNDER */
+    --search-red-border: #ff4d4d; /* สีแดงอ่อนสำหรับขอบค้นหา */
+    --search-box-bg: #161616; /* พื้นหลังช่องค้นหาเข้มกว่า card-bg เล็กน้อย */
+}
 
-    <link rel="stylesheet" href="person_list.css">
-</head>
-<body>
+/* ... (โค้ดส่วนอื่นๆ เหมือนเดิม) ... */
 
-    <div class="header-banner">
-        <a href="index.html" class="back-home-btn"><i class="fas fa-chevron-left"></i> Back to PHAWHA</a>
-        <h1 class="main-title">PERSON LIST</h1>
-        <p class="subtitle">รายชื่อสมาชิกทั้งหมดของ Phawha</p>
-    </div>
+/* ================= 2. HEADER & BANNER ================= */
+.header-banner {
+    /* ... (เหมือนเดิม) ... */
+    padding-bottom: 50px; /* เพิ่ม padding ด้านล่างเล็กน้อยเพื่อเว้นระยะจากส่วนค้นหา */
+}
 
-    <div class="search-container-wrapper">
-        <p class="search-description">รายชื่อสมาชิกในแก๊ง</p> 
-        <div class="search-box">
-            <input type="text" placeholder="ค้นหารายชื่อสมาชิก..." class="search-input">
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-    <div class="container">
-        <section class="member-category founder-section">
-            <h2 class="category-title"><i class="fas fa-crown neon-gold"></i> FOUNDER</h2>
-            <div class="member-grid">
-                <div class="member-card">KEN</div>
-                <div class="member-card">MOND</div>
-                </div>
-        </section>
 
-        <hr class="divider">
+/* ***** สไตล์สำหรับส่วนค้นหาที่อัปเดตแล้ว ***** */
+.search-container-wrapper {
+    text-align: center;
+    padding: 0 20px 40px; /* เพิ่ม padding ด้านล่างเพื่อเว้นระยะจากส่วน content */
+    margin-top: -30px; /* ดึงขึ้นมาเล็กน้อยเพื่อให้ใกล้กับ header */
+}
 
-        <section class="member-category leader-section">
-            <h2 class="category-title">LEADER</h2>
-            <div class="member-grid">
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> A</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> D</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> C</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> B</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> F</div>
-                <div class="member-card is-leader"><i class="fas fa-hand-fist"></i> G</div>
-                </div>
-        </section>
+/* อัปเดตสไตล์สำหรับ "รายชื่อสมาชิกในแก๊ง" */
+.search-description {
+    font-size: 1.2rem;
+    color: var(--light-text); /* ใช้สีขาวเพื่อให้สอดคล้องกับ PERSON LIST */
+    font-family: 'Kanit', sans-serif;
+    margin-bottom: 15px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-shadow: none; /* ลบเงาออกเพื่อให้ดูสะอาดขึ้น */
+}
 
-        <hr class="divider">
+.search-box {
+    display: flex;
+    align-items: center;
+    max-width: 700px; 
+    margin: 0 auto;
+    /* พื้นหลังเข้ม แต่ไม่ใช่ดำสนิท */
+    background-color: var(--search-box-bg); 
+    
+    /* ขอบสีแดง 3px */
+    border: 3px solid var(--search-red-border); 
+    border-radius: 5px; 
+    overflow: hidden;
+    
+    /* ปรับเงาให้ดูเป็นนีออนและดุดัน */
+    box-shadow: 0 0 8px rgba(255, 77, 77, 0.6), inset 0 0 5px rgba(255, 77, 77, 0.2); 
+}
 
-        <section class="member-category member-section">
-            <h2 class="category-title">MEMBER</h2>
-            <div class="member-grid">
-                <div class="member-card">A</div>
-                <div class="member-card">B</div>
-                <div class="member-card">C</div>
-                <div class="member-card">D</div>
-                <div class="member-card">E</div>
-                <div class="member-card">F</div>
-                <div class="member-card">G</div>
-                <div class="member-card">M</div>
-                </div>
-        </section>
-    </div>
+.search-input {
+    flex-grow: 1;
+    padding: 15px 20px;
+    font-size: 1.2rem;
+    background: none;
+    border: none;
+    color: var(--light-text); 
+    outline: none; 
+    font-family: 'Kanit', sans-serif;
+}
 
-    <div class="footer">
-        © DESIGNED BY Pitbull.
-    </div>
+.search-input::placeholder {
+    color: #999; /* ปรับสี placeholder ให้ดูสว่างกว่าเดิมเล็กน้อย */
+}
 
-</body>
-</html>
+.search-button {
+    background: none;
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    color: var(--search-red-border); 
+    font-size: 1.2rem;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.search-button:hover {
+    color: var(--light-text); 
+    background-color: rgba(255, 77, 77, 0.1); /* เพิ่มสีพื้นหลังอ่อน ๆ เมื่อโฮเวอร์ */
+}
+/* ******************************************* */
+
+
+/* ================= 5. RESPONSIVE ================= */
+@media (max-width: 768px) {
+    /* ... (โค้ด responsive เดิม) ... */
+    
+    .search-container-wrapper {
+        padding: 0 10px 30px; /* ปรับ padding ในมือถือ */
+    }
+
+    .search-box {
+        width: 100%; 
+    }
+
+    .search-input {
+        padding: 12px 15px; 
+        font-size: 1rem;
+    }
+
+    .search-button {
+        padding: 12px 15px;
+    }
+}
