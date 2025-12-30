@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PHAWHA | Person List</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style-person.css">
+</head>
+<body>
+  <audio id="list-music" loop>
+    <source src="bg.mp3" type="audio/mpeg">
+  </audio>
+
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="pain.mp4" type="video/mp4">
+  </video>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <nav class="back-nav">
+    <button class="back-btn" onclick="window.location.href='index.html'">BACK TO HOME</button>
+  </nav>
+
+  <header>GANG LIST</header>
+
+  <div class="search-container">
+    <i class='bx bx-search'></i>
+    <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
+  </div>
+
+  <div class="container">
+    <section id="founderSection" style="display: none;">
+      <h2>Founder</h2>
+      <div class="list" id="founderlist"></div>
+    </section>
+
+    <section id="leaderSection">
+      <h2>Leader</h2>
+      <div class="list" id="leaderlist"></div>
+    </section>
+
+    <section id="memberSection">
+      <h2>Member</h2>
+      <div class="list" id="memberlist"></div>
+    </section>
+  </div>
+
+  <footer>© DESIGNED BY KEN.</footer>
+
+  <script src="script.js"></script> 
+
+  <script>
+    const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
+
+    // --- 🛡️ 1. ระบบป้องกันการเข้าถึงและแก้ไขโค้ด (Anti-Inspect) ---
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) return false;
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
+      if (e.ctrlKey && e.keyCode == 85) return false;
+    };
+    document.addEventListener('selectstart', e => e.preventDefault());
+
+    // --- 🎵 2. ระบบเล่นเพลง (รองรับทั้ง Autoplay และการคลิกเพื่อเริ่ม) ---
+    window.addEventListener("DOMContentLoaded", () => {
+      const music = document.getElementById("list-music");
+      const shouldPlay = sessionStorage.getItem('playMusic');
+
+      const startMusic = () => {
+        if (music) {
+          music.volume = 0.4;
+          music.play().then(() => {
+            document.removeEventListener('click', startMusic);
+          }).catch(err => console.log("Waiting for interaction..."));
+        }
+      };
+
+      if (shouldPlay === 'true') {
+        startMusic();
+        sessionStorage.removeItem('playMusic');
+      }
+      document.addEventListener('click', startMusic);
+    });
+
+    // --- 👥 3. ระบบดึงข้อมูลสมาชิกและแยกยศ ---
+    fetch("person.json")
+      .then(res => res.json())
+      .then(data => {
+        const founderList = document.getElementById("founderlist");
+        const leaderList = document.getElementById("leaderlist");
+        const memberList = document.getElementById("memberlist");
+
+        const founders = data.filter(p => p.permission === "founder");
+        const leaders = data.filter(p => p.permission === "leader");
+        const members = data.filter(p => p.permission === "member");
+
+        if(founders.length > 0) {
+            document.getElementById("founderSection").style.display = "block";
+        }
+
+        function createCard(person) {
+          const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${imgSrc}" class="profile" alt="profile">
+            <h3>${person.name}</h3>
+            <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
+          `;
+          return card;
+        }
+
+        founders.forEach(p => founderList.appendChild(createCard(p))); 
+        leaders.forEach(p => leaderList.appendChild(createCard(p))); 
+        members.forEach(p => memberList.appendChild(createCard(p)));
+
+        // --- 🔍 4. ระบบค้นหา ---
+        const searchInput = document.getElementById("searchInput");
+        searchInput.addEventListener("input", e => {
+          const val = e.target.value.toLowerCase();
+          document.querySelectorAll(".card").forEach(card => {
+            const name = card.querySelector("h3").innerText.toLowerCase();
+            card.style.display = name.includes(val) ? "" : "none";
+          });
+        });
+      })
+      .catch(err => console.error("Error loading JSON:", err));
+  </script>
+</body>
+</html>

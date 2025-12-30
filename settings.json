@@ -1,0 +1,12 @@
+{
+  "theme": {
+    "gradientStart": "#000000",
+    "gradientEnd": "#1a1a1a",
+    "circleColor": "rgba(255, 255, 255, 0.1)",
+    "buttonGradientStart": "#222222",
+    "buttonGradientEnd": "#444444",
+    "buttonTextColor": "#ffffff",
+    "fontFamily": "'Kanit', sans-serif"
+  },
+  "backgroundMusic": "bg.mp3"
+}

@@ -1,0 +1,261 @@
+:root {
+  --text-color: #ffffff;
+  --accent: #ff0000;
+  --founder-color: #ffff00;
+  --leader-color: #ff4d4d;
+  --font: 'Kanit', sans-serif;
+  --glass: rgba(255, 255, 255, 0.01);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  color: var(--text-color);
+  background-color: #000;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* วิดีโอพื้นหลัง */
+#bg-video {
+  position: fixed;
+  top: 50%; left: 50%;
+  min-width: 100%; min-height: 100%;
+  transform: translate(-50%, -50%);
+  z-index: -2;
+  object-fit: cover;
+  filter: grayscale(100%) brightness(25%) contrast(110%);
+}
+
+#particleCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ปุ่มขวาบน */
+.back-nav {
+  position: fixed;
+  top: 30px; right: 30px;
+  z-index: 999;
+}
+
+.back-btn {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: 0.3s;
+  backdrop-filter: blur(5px);
+}
+
+.back-btn:hover { background: #fff; color: #000; }
+
+/* จัดการหัวข้อ GANG LIST ให้ตรงกลาง */
+header {
+  text-align: center;
+  padding: 100px 20px 40px;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 15px;
+  text-transform: uppercase;
+  background: linear-gradient(to bottom, #fff, #666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+}
+
+/* จัดการช่องค้นหาให้ตรงกลาง */
+.search-container {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto 60px;
+  position: relative;
+}
+
+.search-box {
+  width: 100%;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 20px 12px 45px;
+  color: white;
+  border-radius: 4px;
+  outline: none;
+  font-family: var(--font);
+}
+
+.search-container i {
+  position: absolute;
+  left: 15px; top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.4);
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 100px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 0.8rem;
+  letter-spacing: 6px;
+  color: var(--accent);
+  margin-bottom: 35px;
+  border-bottom: 1px solid var(--accent);
+  display: inline-block;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* การ์ดสมาชิกแบบใส */
+.card {
+  background: var(--glass) !important;
+  border: 1px solid var(--glass-border) !important;
+  padding: 35px 20px;
+  width: 230px;
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  transition: 0.4s ease;
+  box-shadow: none !important;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* กำหนดสีชื่อ (ID เป็นตัวเล็กทั้งหมด) */
+#founderlist .card h3 { 
+  color: var(--founder-color) !important; 
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.3);
+}
+#leaderlist .card h3 { 
+  color: var(--leader-color) !important; 
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+#memberlist .card h3 { color: #fff !important; }
+
+.fb-link {
+  display: inline-block;
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 15px;
+  margin-top: 10px;
+}
+
+footer { padding: 40px; text-align: center; opacity: 0.2; font-size: 10px; letter-spacing: 4px; }
+
+/* --- ส่วนที่แก้ไขเพิ่มเติม: แยกสีหัวข้อตามยศ --- */
+
+/* หัวข้อ FOUNDER ให้เป็นสีเหลืองทอง */
+#founderSection h2 {
+    color: var(--founder-color) !important;
+    border-bottom: 2px solid var(--founder-color) !important;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+/* หัวข้อ LEADER ให้เป็นสีแดงสด */
+#leaderSection h2 {
+    color: var(--leader-color) !important;
+    border-bottom: 2px solid var(--leader-color) !important;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* หัวข้อ MEMBER ให้เป็นสีขาว (แนะนำขาวเพื่อให้เห็นชัดบนพื้นหลังมืด) */
+#memberSection h2 {
+    color: #ffffff !important;
+    border-bottom: 2px solid #ffffff !important;
+    opacity: 0.8;
+}
+
+/* จัดระยะห่างของหัวข้อให้สมดุล */
+h2 {
+    font-size: 1.2rem !important;
+    letter-spacing: 10px !important;
+    margin-top: 60px !important;    /* ⭐ เพิ่มบรรทัดนี้เพื่อลดระดับหัวข้อลงมา */
+    margin-bottom: 40px !important;
+    text-transform: uppercase;
+}
+
+header {
+    text-align: center;
+    padding: 100px 20px 40px;
+    font-size: 4.5rem; /* ขยายขนาดให้เด่นขึ้น */
+    font-weight: 800;
+    letter-spacing: 25px;
+    text-transform: uppercase;
+    position: relative;
+    display: block;
+    width: 100%;
+    
+    /* สไตล์สีตัวอักษรแบบมีมิติ */
+    background: linear-gradient(
+        to right, 
+        #444 0%, 
+        #fff 50%, 
+        #444 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* เพิ่ม Animation แสงวิ่งผ่านตัวอักษร */
+    animation: shineText 4s linear infinite, floatHeader 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+}
+
+/* เอฟเฟกต์แสงวิ่งผ่าน (Shine Effect) */
+@keyframes shineText {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* เอฟเฟกต์หัวข้อลอยขึ้นลงเบาๆ (Floating Effect) */
+@keyframes floatHeader {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* เพิ่มเส้นตกแต่งด้านล่างที่มี Animation ขยายออก */
+header::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--accent), transparent);
+    margin: 20px auto 0;
+    animation: lineExpand 2s ease-out forwards;
+    animation-delay: 1s;
+}
+
+@keyframes lineExpand {
+    to { width: 300px; }
+}
