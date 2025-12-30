@@ -39,14 +39,16 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // แก้ไขใหม่: บังคับ URL ไปที่ edit-profile.html โดยตรงแบบไม่เอาชื่อไฟล์เก่ามาผสม
+    // ฟังก์ชันย้ายหน้า (ตัด Alert ออกเพื่อให้มันเด้งไปเลย ไม่ต้องรอกด OK ซ้ำซ้อน)
     const forceRedirect = () => {
-        const domain = "https://pitbullgang.github.io/phawhatest/";
-        window.location.href = domain + "edit-profile.html";
+        window.location.replace("https://pitbullgang.github.io/phawhatest/edit-profile.html");
     };
 
+    // เช็คสถานะ: ถ้าล็อกอินค้างไว้ให้ไปทันที ห้ามเด้ง Alert
     onAuthStateChanged(auth, (user) => {
-        if (user) { forceRedirect(); }
+        if (user) { 
+            forceRedirect(); 
+        }
     });
 
     document.getElementById('btnLogin').addEventListener('click', async () => {
@@ -61,8 +63,8 @@
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
+            // ล็อกอินเสร็จปุ๊บ สั่งย้ายหน้าทันที ไม่ต้องมี alert("เข้าสู่ระบบสำเร็จ") มาขวาง
             await signInWithEmailAndPassword(auth, email, passField);
-            alert("เข้าสู่ระบบสำเร็จ!");
             forceRedirect();
         } catch (error) {
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
