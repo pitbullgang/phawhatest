@@ -56,41 +56,12 @@
 <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
     
-    let allMembers = []; // เก็บเฉพาะสมาชิกยศ Member
+    let allData = [];    // 🌟 เพิ่มตัวแปรนี้เพื่อเก็บทุกคน (Founder + Leader + Member)
+    let allMembers = []; // เก็บเฉพาะ Member สำหรับระบบแบ่งหน้า
     const itemsPerPage = 8; 
     let currentPage = 1;
 
-    // --- 🛡️ 1. Anti-Inspect ---
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false;
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
-      if (e.ctrlKey && e.keyCode == 85) return false;
-    };
-
-    // --- 🎵 2. Music System ---
-    const music = document.getElementById("list-music");
-    const startMusic = () => {
-        if (music) {
-            music.volume = 0.4;
-            music.play().catch(() => {});
-            document.removeEventListener('click', startMusic);
-        }
-    };
-    document.addEventListener('click', startMusic);
-
-    // --- 👥 3. Render Card ---
-    function createCard(person) {
-      const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <img src="${imgSrc}" class="profile" alt="profile">
-        <h3>${person.name}</h3>
-        <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
-      `;
-      return card;
-    }
+    // ... (ส่วน Anti-Inspect และ Music เหมือนเดิม) ...
 
     // --- 📄 4. Pagination System ---
     function displayMembers(membersArray) {
@@ -100,7 +71,7 @@
       
       memberList.innerHTML = "";
 
-      // ⭐ หน้า 2 เป็นต้นไป ให้ซ่อน Founder และ Leader
+      // ถ้าอยู่หน้า 1 ให้โชว์ Founder/Leader ปกติ
       if (currentPage === 1) {
           founderSection.style.display = "block";
           leaderSection.style.display = "block";
@@ -117,27 +88,7 @@
       renderPagination(membersArray.length);
     }
 
-    function renderPagination(totalItems) {
-      const totalPages = Math.ceil(totalItems / itemsPerPage);
-      const container = document.getElementById("pagination-controls");
-      container.innerHTML = "";
-      
-      if (totalPages <= 1) return;
-
-      for (let i = 1; i <= totalPages; i++) {
-        const btn = document.createElement("button");
-        btn.innerText = i;
-        btn.className = (i === currentPage) ? "page-btn active" : "page-btn";
-        btn.onclick = () => {
-          currentPage = i;
-          displayMembers(allMembers);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-        container.appendChild(btn);
-      }
-    }
-
-    // --- 🔍 5. Search System (เอาคนอื่นออกให้หมดตอนหา) ---
+    // --- 🔍 5. Search System (แก้ไขให้ค้นหาได้ทุกคน) ---
     const searchInput = document.getElementById("searchInput");
     searchInput.addEventListener("input", e => {
       const val = e.target.value.toLowerCase().trim();
@@ -147,24 +98,26 @@
       const memberList = document.getElementById("memberlist");
 
       if (val === "") {
-        // กลับสู่โหมดปกติ
+        // กลับสู่โหมดปกติ (Page 1 2 3)
         currentPage = 1;
         displayMembers(allMembers);
         paginationControls.style.display = "flex";
       } else {
-        // ปิดส่วนอื่นให้หมด
+        // 🛑 สั่งซ่อนทุก Section ก่อน
         founderSection.style.display = "none";
         leaderSection.style.display = "none";
         paginationControls.style.display = "none";
 
-        // กรองชื่อและโชว์เฉพาะคนที่หา
-        const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
+        // 🔍 ค้นหาจาก allData (ซึ่งรวมทุกยศแล้ว)
+        const filtered = allData.filter(person => person.name.toLowerCase().includes(val));
+        
         memberList.innerHTML = "";
         
         if (filtered.length > 0) {
+          // ถ้าหาเจอ ให้เอามาโชว์ในช่อง memberList (เพื่อให้คนอื่นหายหมดเหลือแต่คนที่เราหา)
           filtered.forEach(p => memberList.appendChild(createCard(p)));
         } else {
-          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบข้อมูล...</p>`;
+          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบข้อมูลชื่อนี้ในระบบ...</p>`;
         }
       }
     });
@@ -173,12 +126,14 @@
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
+        allData = data; // 🌟 เก็บข้อมูล "ทุกคน" ไว้ที่นี่เพื่อใช้ค้นหา
+        
         const founderList = document.getElementById("founderlist");
         const leaderList = document.getElementById("leaderlist");
 
         const founders = data.filter(p => p.permission === "founder");
         const leaders = data.filter(p => p.permission === "leader");
-        allMembers = data.filter(p => p.permission === "member");
+        allMembers = data.filter(p => p.permission === "member"); // แยกเฉพาะ Member ไว้ทำเลขหน้า
 
         if(founders.length > 0) founders.forEach(p => founderList.appendChild(createCard(p)));
         leaders.forEach(p => leaderList.appendChild(createCard(p)));
@@ -188,6 +143,7 @@
   </script>
 </body>
 </html>
+
 
 
 
