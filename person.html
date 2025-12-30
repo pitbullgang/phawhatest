@@ -158,16 +158,42 @@
         // รันการแสดงผลครั้งแรก
         displayMembers(allMembers);
 
-        // --- 🔍 4. ระบบค้นหา ---
-        const searchInput = document.getElementById("searchInput");
-        searchInput.addEventListener("input", e => {
-          const val = e.target.value.toLowerCase();
-          currentPage = 1; // กลับมาหน้า 1 เสมอเมื่อค้นหา
-          const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
-          displayMembers(filtered);
-        });
-      });
+        // --- 🔍 4. ระบบค้นหา (ฉบับปรับปรุงใหม่ล่าสุด) ---
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", e => {
+  const val = e.target.value.toLowerCase().trim();
+  const founderSection = document.getElementById("founderSection");
+  const leaderSection = document.getElementById("leaderSection");
+  const paginationControls = document.getElementById("pagination-controls");
+  const memberList = document.getElementById("memberlist");
+
+  if (val === "") {
+    // 🟢 กรณีช่องค้นหาว่าง: กลับไปใช้ระบบ Page 1 2 3 ตามปกติ
+    currentPage = 1;
+    displayMembers(allMembers); // จะโชว์ Founder/Leader อัตโนมัติถ้าเป็นหน้า 1
+    paginationControls.style.display = "flex"; 
+  } else {
+    // 🔴 กรณีมีการพิมพ์ค้นหา:
+    // 1. ซ่อน Section อื่นๆ และปุ่มเปลี่ยนหน้า
+    founderSection.style.display = "none";
+    leaderSection.style.display = "none";
+    paginationControls.style.display = "none";
+
+    // 2. กรองหาคนจากรายชื่อ Member ทั้งหมด
+    const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
+    
+    // 3. แสดงผลเฉพาะคนที่เจอ
+    memberList.innerHTML = "";
+    if (filtered.length > 0) {
+      filtered.forEach(p => memberList.appendChild(createCard(p)));
+    } else {
+      memberList.innerHTML = `<p style="opacity: 0.5; width: 100%; margin-top: 20px;">ไม่พบรายชื่อที่ค้นหา...</p>`;
+    }
+  }
+});
   </script>
 </body>
 </html>
+
 
