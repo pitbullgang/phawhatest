@@ -128,35 +128,41 @@
       }
     }
 
-    // --- 🔍 4. Search System (แก้ให้หาเจอทุกคนแน่นอน) ---
+    // --- 🔍 ระบบค้นหาที่แก้ไขแล้ว ---
     const searchInput = document.getElementById("searchInput");
+    
     searchInput.addEventListener("input", e => {
       const val = e.target.value.toLowerCase().trim();
+      const memberSectionH2 = document.querySelector("#memberSection h2"); // หัวข้อ Member
+      const pagination = document.getElementById("pagination-controls");
+      const memberList = document.getElementById("memberlist");
       const founderSection = document.getElementById("founderSection");
       const leaderSection = document.getElementById("leaderSection");
-      const paginationControls = document.getElementById("pagination-controls");
-      const memberList = document.getElementById("memberlist");
 
       if (val === "") {
-        // กลับสู่โหมดปกติ
+        // 🟢 ถ้าช่องว่าง: กลับสู่สถานะปกติ
+        memberSectionH2.innerText = "Member"; // คืนค่าหัวข้อ
+        pagination.style.display = "flex";
         currentPage = 1;
         displayMembers(allMembers);
-        paginationControls.style.display = "flex";
       } else {
-        // 🛑 ซ่อนทุกอย่างเพื่อโชว์ผลการค้นหา
+        // 🔴 ถ้ามีการพิมพ์:
+        memberSectionH2.innerText = "RESULT"; // เปลี่ยนหัวข้อเป็น RESULT เพื่อไม่ให้สับสน
         founderSection.style.display = "none";
         leaderSection.style.display = "none";
-        paginationControls.style.display = "none";
+        pagination.style.display = "none";
 
-        // ค้นหาจาก allData (ที่เก็บไว้ตอน Fetch)
+        // ค้นหาจากทุกคน (allData)
         const filtered = allData.filter(p => p.name.toLowerCase().includes(val));
         
-        memberList.innerHTML = ""; // ล้างจอ
-        
+        memberList.innerHTML = "";
         if (filtered.length > 0) {
-          filtered.forEach(p => memberList.appendChild(createCard(p)));
+          filtered.forEach(p => {
+            // สร้างการ์ดปกติ แต่เราจะรู้ว่าเป็นใครจากการพิมพ์ชื่อ
+            memberList.appendChild(createCard(p));
+          });
         } else {
-          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบรายชื่อ "${val}"</p>`;
+          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบข้อมูลชื่อนี้...</p>`;
         }
       }
     });
@@ -185,6 +191,7 @@
   </script>
 </body>
 </html>
+
 
 
 
