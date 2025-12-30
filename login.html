@@ -39,13 +39,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // ฟังก์ชันช่วยเปลี่ยนหน้าแบบบังคับ
+    // ฟังก์ชันช่วยเปลี่ยนหน้าแบบระบุ URL เต็มเพื่อป้องกันความผิดพลาดบน GitHub Pages
     const goToEditPage = () => {
-        const target = "edit-profile.html";
-        window.location.replace(target); // ใช้ replace เพื่อไม่ให้กดย้อนกลับมาหน้า login ได้
+        const fullUrl = window.location.origin + window.location.pathname.replace('login.html', '') + 'edit-profile.html';
+        console.log("Redirecting to:", fullUrl);
+        window.location.href = fullUrl;
     };
 
-    // เช็คถ้าล็อกอินค้างไว้ให้เด้งไปเลย
+    // เช็คสถานะการเข้าสู่ระบบ
     onAuthStateChanged(auth, (user) => {
         if (user) {
             goToEditPage();
