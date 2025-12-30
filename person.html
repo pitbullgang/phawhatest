@@ -128,44 +128,62 @@
       }
     }
 
-    // --- 🔍 ระบบค้นหาที่แก้ไขแล้ว ---
-    const searchInput = document.getElementById("searchInput");
+    // --- 🔍 ระบบค้นหาแบบแยกยศ (ค้นหาแล้วเจอตามยศจริง) ---
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", e => {
+    const val = e.target.value.toLowerCase().trim();
+    const pagination = document.getElementById("pagination-controls");
     
-    searchInput.addEventListener("input", e => {
-      const val = e.target.value.toLowerCase().trim();
-      const memberSectionH2 = document.querySelector("#memberSection h2"); // หัวข้อ Member
-      const pagination = document.getElementById("pagination-controls");
-      const memberList = document.getElementById("memberlist");
-      const founderSection = document.getElementById("founderSection");
-      const leaderSection = document.getElementById("leaderSection");
+    // ดึงรายการแสดงผลทั้งหมด
+    const founderList = document.getElementById("founderlist");
+    const leaderList = document.getElementById("leaderlist");
+    const memberList = document.getElementById("memberlist");
+    
+    // ดึง Section ทั้งหมด
+    const fSection = document.getElementById("founderSection");
+    const lSection = document.getElementById("leaderSection");
+    const mSection = document.getElementById("memberSection");
 
-      if (val === "") {
-        // 🟢 ถ้าช่องว่าง: กลับสู่สถานะปกติ
-        memberSectionH2.innerText = "Member"; // คืนค่าหัวข้อ
-        pagination.style.display = "flex";
+    if (val === "") {
+        // 🟢 ถ้าช่องว่าง: กลับไปแสดงผลแบบแบ่งหน้าปกติ
         currentPage = 1;
-        displayMembers(allMembers);
-      } else {
+        displayMembers(allMembers); // ฟังก์ชันเดิมที่จะโชว์ Founder/Leader ในหน้า 1
+        pagination.style.display = "flex";
+        mSection.querySelector("h2").innerText = "Member"; 
+    } else {
         // 🔴 ถ้ามีการพิมพ์:
-        memberSectionH2.innerText = "RESULT"; // เปลี่ยนหัวข้อเป็น RESULT เพื่อไม่ให้สับสน
-        founderSection.style.display = "none";
-        leaderSection.style.display = "none";
-        pagination.style.display = "none";
+        pagination.style.display = "none"; // ซ่อนปุ่ม 1 2 3
+        mSection.querySelector("h2").innerText = "Member"; // คืนค่าหัวข้อ Member ปกติ
 
-        // ค้นหาจากทุกคน (allData)
-        const filtered = allData.filter(p => p.name.toLowerCase().includes(val));
-        
+        // ล้างข้อมูลเก่าในลิสต์ออกก่อน
+        founderList.innerHTML = "";
+        leaderList.innerHTML = "";
         memberList.innerHTML = "";
-        if (filtered.length > 0) {
-          filtered.forEach(p => {
-            // สร้างการ์ดปกติ แต่เราจะรู้ว่าเป็นใครจากการพิมพ์ชื่อ
-            memberList.appendChild(createCard(p));
-          });
-        } else {
-          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบข้อมูลชื่อนี้...</p>`;
+
+        // กรองข้อมูลจาก allData ทั้งหมด
+        const filtered = allData.filter(p => p.name.toLowerCase().includes(val));
+
+        // นำคนที่ค้นหาเจอไปใส่ในช่องยศของตัวเอง
+        filtered.forEach(p => {
+            const card = createCard(p);
+            if (p.permission === "founder") founderList.appendChild(card);
+            else if (p.permission === "leader") leaderList.appendChild(card);
+            else memberList.appendChild(card);
+        });
+
+        // ⭐ เช็คว่าถ้าหมวดไหนไม่มีคน ให้ซ่อนหัวข้อนั้นไปเลย (คนอื่นหายหมด)
+        fSection.style.display = founderList.children.length > 0 ? "block" : "none";
+        lSection.style.display = leaderList.children.length > 0 ? "block" : "none";
+        mSection.style.display = memberList.children.length > 0 ? "block" : "none";
+        
+        // ถ้าไม่เจอใครเลย
+        if (filtered.length === 0) {
+            mSection.style.display = "block";
+            memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบรายชื่อที่ค้นหา...</p>`;
         }
-      }
-    });
+    }
+});
 
     // --- 🚀 5. Load Data ---
     fetch("person.json")
