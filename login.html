@@ -48,17 +48,27 @@
             return;
         }
 
+        // แปลงชื่อเป็นตัวเล็กเพื่อความแม่นยำ
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
             await signInWithEmailAndPassword(auth, email, passField);
-            alert("เข้าสู่ระบบสำเร็จ! กำลังนำคุณไปหน้าแก้ไขโปรไฟล์...");
+            console.log("Login Success!");
             
-            // ใช้การระบุ Path แบบชัดเจน (./ หมายถึงโฟลเดอร์เดียวกัน)
-            window.location.assign("./edit-profile.html"); 
+            // ใช้ URL แบบ Absolute เพื่อกันความผิดพลาดของ Path บน GitHub Pages
+            const targetPage = "edit-profile.html";
             
+            // แจ้งเตือนและพยายามเปลี่ยนหน้า
+            alert("เข้าสู่ระบบสำเร็จ! กำลังไปที่หน้าแก้ไขโปรไฟล์...");
+            
+            // ลองใช้หลายวิธีเผื่อ Browser บางตัวบล็อก
+            window.location.href = targetPage;
+            setTimeout(() => {
+                window.location.assign(targetPage);
+            }, 500);
+
         } catch (error) {
-            console.error("Login Error:", error.code);
+            console.error("Login Error:", error.code, error.message);
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
     });
