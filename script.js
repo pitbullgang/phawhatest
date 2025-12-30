@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 🎨 1. Load Settings (Theme & Music)
   try {
     const response = await fetch("settings.json");
-    if (response.ok) { // เพิ่มการเช็คว่าโหลดไฟล์สำเร็จไหม
+    if (response.ok) {
       const settings = await response.json();
       const theme = settings.theme;
 
@@ -21,18 +21,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       }
 
-      // 🎵 ระบบเพลง: รองรับทั้งหน้า Home และหน้า Person
+      // 🎵 ระบบเพลง: รองรับการจำสถานะเปิด/ปิด
       const music = document.getElementById("bg-music") || document.getElementById("list-music");
       if (music) {
-        if (settings.backgroundMusic) music.src = settings.backgroundMusic;
+        if (settings.backgroundMusic) {
+            // ป้องกันเพลงโหลดใหม่ถ้าเป็นไฟล์เดิม
+            if (!music.src.includes(settings.backgroundMusic)) {
+                music.src = settings.backgroundMusic;
+            }
+        }
         music.volume = 0.4;
 
+        // ฟังก์ชันเล่นเพลง
+        const playMusic = () => {
+            music.play().then(() => {
+                sessionStorage.setItem("musicPaused", "false");
+            }).catch(err => console.log("Autoplay blocked, waiting for interaction..."));
+        };
+
+        // ตรวจสอบสถานะเดิม (ถ้าไม่ได้ถูกสั่ง pause ไว้ ให้พยายามเล่น)
+        if (sessionStorage.getItem("musicPaused") !== "true") {
+            playMusic();
+        }
+
+        // กด Spacebar เพื่อเล่น/หยุด และจำค่าไว้
         document.addEventListener("keydown", e => {
           if (e.code === "Space") {
-            e.preventDefault(); // กันหน้าจอเลื่อนเวลาเล่นเพลง
-            music.paused ? music.play() : music.pause();
+            e.preventDefault();
+            if (music.paused) {
+              playMusic();
+            } else {
+              music.pause();
+              sessionStorage.setItem("musicPaused", "true");
+            }
           }
         });
+
+        // เมื่อคลิกหน้าจอครั้งแรก ให้ลองเล่นเพลง (แก้ปัญหา Autoplay บล็อก)
+        document.addEventListener('click', () => {
+            if (sessionStorage.getItem("musicPaused") !== "true") {
+                playMusic();
+            }
+        }, { once: true });
       }
     }
   } catch (error) {
@@ -45,12 +75,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTimeout(() => loading.classList.add("hidden"), 1000);
   }
 
-  // 💀 3. SKULL EFFECT (รันเฉพาะหน้าที่มี Canvas)
+  // 💀 3. SKULL EFFECT
   const canvas = document.getElementById("particleCanvas");
   if (canvas) {
     const ctx = canvas.getContext("2d");
-    let animationFrame;
-
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -72,7 +100,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.font = "18px serif";
       ctx.textAlign = "center";
-      
       skulls.forEach(s => {
         ctx.save();
         ctx.globalAlpha = s.opacity;
@@ -80,17 +107,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         ctx.rotate(s.rotation);
         ctx.fillText("💀", 0, 0);
         ctx.restore();
-
-        s.y += s.speedY;
-        s.x += s.speedX;
-        s.rotation += s.spin;
-
-        if (s.y > canvas.height + 50) {
-          s.y = -50;
-          s.x = Math.random() * canvas.width;
-        }
+        s.y += s.speedY; s.x += s.speedX; s.rotation += s.spin;
+        if (s.y > canvas.height + 50) { s.y = -50; s.x = Math.random() * canvas.width; }
       });
-      animationFrame = requestAnimationFrame(drawSkulls);
+      requestAnimationFrame(drawSkulls);
     }
     drawSkulls();
   }
