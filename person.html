@@ -53,7 +53,7 @@
 
   <script src="script.js"></script> 
 
-  <script>
+<script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
     
     // --- ตั้งค่าระบบแบ่งหน้า ---
@@ -69,7 +69,7 @@
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
 
-    // --- 🎵 2. ระบบเพลง (แก้ให้ดังง่ายขึ้น) ---
+    // --- 🎵 2. ระบบเพลง ---
     const music = document.getElementById("list-music");
     const startMusic = () => {
         if (music) {
@@ -80,7 +80,7 @@
     };
     document.addEventListener('click', startMusic);
 
-    // --- 👥 3. ระบบแสดงผลและแบ่งหน้า ---
+    // --- 👥 3. ระบบแสดงผลและแบ่งหน้า (แก้ไข Logic ตรงนี้) ---
     function createCard(person) {
       const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
       const card = document.createElement("div");
@@ -95,8 +95,21 @@
 
     function displayMembers(membersArray) {
       const memberList = document.getElementById("memberlist");
-      memberList.innerHTML = "";
+      const founderSection = document.getElementById("founderSection");
+      const leaderSection = document.getElementById("leaderSection");
       
+      memberList.innerHTML = "";
+
+      // ⭐ จุดสำคัญ: ถ้าไม่ใช่หน้า 1 ให้ซ่อน Founder และ Leader
+      if (currentPage === 1) {
+          // ถ้ามีข้อมูล founder ให้แสดง (เช็คจากจำนวนลูกใน list หรือตัวแปรข้อมูลก็ได้)
+          founderSection.style.display = "block";
+          leaderSection.style.display = "block";
+      } else {
+          founderSection.style.display = "none";
+          leaderSection.style.display = "none";
+      }
+
       const start = (currentPage - 1) * itemsPerPage;
       const end = start + itemsPerPage;
       const paginatedItems = membersArray.slice(start, end);
@@ -119,8 +132,8 @@
         btn.onclick = () => {
           currentPage = i;
           displayMembers(allMembers);
-          // เลื่อนหน้าจอกลับขึ้นไปที่หัวข้อ Member
-          document.getElementById('memberSection').scrollIntoView({ behavior: 'smooth' });
+          // เมื่อกดเปลี่ยนหน้า ให้ดีดขึ้นไปบนสุดเพื่อให้เห็นรายชื่อ Member ชัดๆ
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         container.appendChild(btn);
       }
@@ -136,21 +149,20 @@
         const leaders = data.filter(p => p.permission === "leader");
         allMembers = data.filter(p => p.permission === "member");
 
+        // โหลดข้อมูล Founder/Leader ไว้ล่วงหน้า (แสดงผลจะถูกคุมโดย displayMembers อีกที)
         if(founders.length > 0) {
-            document.getElementById("founderSection").style.display = "block";
             founders.forEach(p => founderList.appendChild(createCard(p)));
         }
-        
         leaders.forEach(p => leaderList.appendChild(createCard(p)));
         
-        // รันการแสดงผล Member แบบแบ่งหน้า
+        // รันการแสดงผลครั้งแรก
         displayMembers(allMembers);
 
-        // --- 🔍 4. ระบบค้นหา (แก้ให้ทำงานร่วมกับแบ่งหน้า) ---
+        // --- 🔍 4. ระบบค้นหา ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
-          currentPage = 1;
+          currentPage = 1; // กลับมาหน้า 1 เสมอเมื่อค้นหา
           const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
           displayMembers(filtered);
         });
@@ -158,3 +170,4 @@
   </script>
 </body>
 </html>
+
