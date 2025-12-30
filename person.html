@@ -56,9 +56,8 @@
 <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
     
-    // --- ตั้งค่าระบบแบ่งหน้า ---
-    let allMembers = [];
-    const itemsPerPage = 8; // แสดงหน้าละ 8 คน
+    let allMembers = []; // เก็บเฉพาะสมาชิกยศ Member
+    const itemsPerPage = 8; 
     let currentPage = 1;
 
     // --- 🛡️ 1. Anti-Inspect ---
@@ -69,7 +68,7 @@
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
 
-    // --- 🎵 2. ระบบเพลง ---
+    // --- 🎵 2. Music System ---
     const music = document.getElementById("list-music");
     const startMusic = () => {
         if (music) {
@@ -80,7 +79,7 @@
     };
     document.addEventListener('click', startMusic);
 
-    // --- 👥 3. ระบบแสดงผลและแบ่งหน้า (แก้ไข Logic ตรงนี้) ---
+    // --- 👥 3. Render Card ---
     function createCard(person) {
       const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
       const card = document.createElement("div");
@@ -93,6 +92,7 @@
       return card;
     }
 
+    // --- 📄 4. Pagination System ---
     function displayMembers(membersArray) {
       const memberList = document.getElementById("memberlist");
       const founderSection = document.getElementById("founderSection");
@@ -100,9 +100,8 @@
       
       memberList.innerHTML = "";
 
-      // ⭐ จุดสำคัญ: ถ้าไม่ใช่หน้า 1 ให้ซ่อน Founder และ Leader
+      // ⭐ หน้า 2 เป็นต้นไป ให้ซ่อน Founder และ Leader
       if (currentPage === 1) {
-          // ถ้ามีข้อมูล founder ให้แสดง (เช็คจากจำนวนลูกใน list หรือตัวแปรข้อมูลก็ได้)
           founderSection.style.display = "block";
           leaderSection.style.display = "block";
       } else {
@@ -132,13 +131,45 @@
         btn.onclick = () => {
           currentPage = i;
           displayMembers(allMembers);
-          // เมื่อกดเปลี่ยนหน้า ให้ดีดขึ้นไปบนสุดเพื่อให้เห็นรายชื่อ Member ชัดๆ
           window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         container.appendChild(btn);
       }
     }
 
+    // --- 🔍 5. Search System (เอาคนอื่นออกให้หมดตอนหา) ---
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", e => {
+      const val = e.target.value.toLowerCase().trim();
+      const founderSection = document.getElementById("founderSection");
+      const leaderSection = document.getElementById("leaderSection");
+      const paginationControls = document.getElementById("pagination-controls");
+      const memberList = document.getElementById("memberlist");
+
+      if (val === "") {
+        // กลับสู่โหมดปกติ
+        currentPage = 1;
+        displayMembers(allMembers);
+        paginationControls.style.display = "flex";
+      } else {
+        // ปิดส่วนอื่นให้หมด
+        founderSection.style.display = "none";
+        leaderSection.style.display = "none";
+        paginationControls.style.display = "none";
+
+        // กรองชื่อและโชว์เฉพาะคนที่หา
+        const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
+        memberList.innerHTML = "";
+        
+        if (filtered.length > 0) {
+          filtered.forEach(p => memberList.appendChild(createCard(p)));
+        } else {
+          memberList.innerHTML = `<p style="opacity:0.5; width:100%; margin-top:50px;">ไม่พบข้อมูล...</p>`;
+        }
+      }
+    });
+
+    // --- 🚀 6. Initial Load ---
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
@@ -149,51 +180,14 @@
         const leaders = data.filter(p => p.permission === "leader");
         allMembers = data.filter(p => p.permission === "member");
 
-        // โหลดข้อมูล Founder/Leader ไว้ล่วงหน้า (แสดงผลจะถูกคุมโดย displayMembers อีกที)
-        if(founders.length > 0) {
-            founders.forEach(p => founderList.appendChild(createCard(p)));
-        }
+        if(founders.length > 0) founders.forEach(p => founderList.appendChild(createCard(p)));
         leaders.forEach(p => leaderList.appendChild(createCard(p)));
         
-        // รันการแสดงผลครั้งแรก
         displayMembers(allMembers);
-
-        // --- 🔍 4. ระบบค้นหา (ฉบับปรับปรุงใหม่ล่าสุด) ---
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", e => {
-  const val = e.target.value.toLowerCase().trim();
-  const founderSection = document.getElementById("founderSection");
-  const leaderSection = document.getElementById("leaderSection");
-  const paginationControls = document.getElementById("pagination-controls");
-  const memberList = document.getElementById("memberlist");
-
-  if (val === "") {
-    // 🟢 กรณีช่องค้นหาว่าง: กลับไปใช้ระบบ Page 1 2 3 ตามปกติ
-    currentPage = 1;
-    displayMembers(allMembers); // จะโชว์ Founder/Leader อัตโนมัติถ้าเป็นหน้า 1
-    paginationControls.style.display = "flex"; 
-  } else {
-    // 🔴 กรณีมีการพิมพ์ค้นหา:
-    // 1. ซ่อน Section อื่นๆ และปุ่มเปลี่ยนหน้า
-    founderSection.style.display = "none";
-    leaderSection.style.display = "none";
-    paginationControls.style.display = "none";
-
-    // 2. กรองหาคนจากรายชื่อ Member ทั้งหมด
-    const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
-    
-    // 3. แสดงผลเฉพาะคนที่เจอ
-    memberList.innerHTML = "";
-    if (filtered.length > 0) {
-      filtered.forEach(p => memberList.appendChild(createCard(p)));
-    } else {
-      memberList.innerHTML = `<p style="opacity: 0.5; width: 100%; margin-top: 20px;">ไม่พบรายชื่อที่ค้นหา...</p>`;
-    }
-  }
-});
+      });
   </script>
 </body>
 </html>
+
 
 
