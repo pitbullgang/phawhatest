@@ -7,7 +7,6 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500;700&display=swap" rel="stylesheet" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  
   <link rel="stylesheet" href="style-person.css">
 </head>
 <body>
@@ -25,14 +24,14 @@
     <button class="back-btn" onclick="window.location.href='index.html'">BACK TO HOME</button>
   </nav>
 
-  <header>GANG LIST</header>
-
-  <div class="search-container">
-    <i class='bx bx-search'></i>
-    <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
-  </div>
-
   <div class="container">
+    <header>GANG LIST</header>
+
+    <div class="search-container">
+      <i class='bx bx-search'></i>
+      <input type="text" id="searchInput" class="search-box" placeholder="SEARCH MEMBERS...">
+    </div>
+
     <section id="founderSection" style="display: none;">
       <h2>Founder</h2>
       <div class="list" id="founderlist"></div>
@@ -46,89 +45,116 @@
     <section id="memberSection">
       <h2>Member</h2>
       <div class="list" id="memberlist"></div>
+      <div id="pagination-controls" class="pagination-container"></div>
     </section>
-  </div>
 
-  <footer>© DESIGNED BY KEN.</footer>
+    <footer>© DESIGNED BY KEN.</footer>
+  </div>
 
   <script src="script.js"></script> 
 
   <script>
     const defaultImage = "https://i.pinimg.com/originals/91/ab/f0/91abf0d74be5d9aeb1346178e70dde96.gif";
+    
+    // --- ตั้งค่าระบบแบ่งหน้า ---
+    let allMembers = [];
+    const itemsPerPage = 8; // แสดงหน้าละ 8 คน
+    let currentPage = 1;
 
-    // --- 🛡️ 1. ระบบป้องกันการเข้าถึงและแก้ไขโค้ด (Anti-Inspect) ---
+    // --- 🛡️ 1. Anti-Inspect ---
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
       if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false;
       if (e.ctrlKey && e.keyCode == 85) return false;
     };
-    document.addEventListener('selectstart', e => e.preventDefault());
 
-    // --- 🎵 2. ระบบเล่นเพลง (รองรับทั้ง Autoplay และการคลิกเพื่อเริ่ม) ---
-    window.addEventListener("DOMContentLoaded", () => {
-      const music = document.getElementById("list-music");
-      const shouldPlay = sessionStorage.getItem('playMusic');
-
-      const startMusic = () => {
+    // --- 🎵 2. ระบบเพลง (แก้ให้ดังง่ายขึ้น) ---
+    const music = document.getElementById("list-music");
+    const startMusic = () => {
         if (music) {
-          music.volume = 0.4;
-          music.play().then(() => {
+            music.volume = 0.4;
+            music.play().catch(() => {});
             document.removeEventListener('click', startMusic);
-          }).catch(err => console.log("Waiting for interaction..."));
         }
-      };
+    };
+    document.addEventListener('click', startMusic);
 
-      if (shouldPlay === 'true') {
-        startMusic();
-        sessionStorage.removeItem('playMusic');
+    // --- 👥 3. ระบบแสดงผลและแบ่งหน้า ---
+    function createCard(person) {
+      const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${imgSrc}" class="profile" alt="profile">
+        <h3>${person.name}</h3>
+        <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
+      `;
+      return card;
+    }
+
+    function displayMembers(membersArray) {
+      const memberList = document.getElementById("memberlist");
+      memberList.innerHTML = "";
+      
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedItems = membersArray.slice(start, end);
+      
+      paginatedItems.forEach(p => memberList.appendChild(createCard(p)));
+      renderPagination(membersArray.length);
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const container = document.getElementById("pagination-controls");
+      container.innerHTML = "";
+      
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.className = (i === currentPage) ? "page-btn active" : "page-btn";
+        btn.onclick = () => {
+          currentPage = i;
+          displayMembers(allMembers);
+          // เลื่อนหน้าจอกลับขึ้นไปที่หัวข้อ Member
+          document.getElementById('memberSection').scrollIntoView({ behavior: 'smooth' });
+        };
+        container.appendChild(btn);
       }
-      document.addEventListener('click', startMusic);
-    });
+    }
 
-    // --- 👥 3. ระบบดึงข้อมูลสมาชิกและแยกยศ ---
     fetch("person.json")
       .then(res => res.json())
       .then(data => {
         const founderList = document.getElementById("founderlist");
         const leaderList = document.getElementById("leaderlist");
-        const memberList = document.getElementById("memberlist");
 
         const founders = data.filter(p => p.permission === "founder");
         const leaders = data.filter(p => p.permission === "leader");
-        const members = data.filter(p => p.permission === "member");
+        allMembers = data.filter(p => p.permission === "member");
 
         if(founders.length > 0) {
             document.getElementById("founderSection").style.display = "block";
+            founders.forEach(p => founderList.appendChild(createCard(p)));
         }
+        
+        leaders.forEach(p => leaderList.appendChild(createCard(p)));
+        
+        // รันการแสดงผล Member แบบแบ่งหน้า
+        displayMembers(allMembers);
 
-        function createCard(person) {
-          const imgSrc = person.image && person.image.trim() !== "" ? person.image : defaultImage;
-          const card = document.createElement("div");
-          card.className = "card";
-          card.innerHTML = `
-            <img src="${imgSrc}" class="profile" alt="profile">
-            <h3>${person.name}</h3>
-            <a href="${person.facebook}" target="_blank" class="fb-link">FACEBOOK</a>
-          `;
-          return card;
-        }
-
-        founders.forEach(p => founderList.appendChild(createCard(p))); 
-        leaders.forEach(p => leaderList.appendChild(createCard(p))); 
-        members.forEach(p => memberList.appendChild(createCard(p)));
-
-        // --- 🔍 4. ระบบค้นหา ---
+        // --- 🔍 4. ระบบค้นหา (แก้ให้ทำงานร่วมกับแบ่งหน้า) ---
         const searchInput = document.getElementById("searchInput");
         searchInput.addEventListener("input", e => {
           const val = e.target.value.toLowerCase();
-          document.querySelectorAll(".card").forEach(card => {
-            const name = card.querySelector("h3").innerText.toLowerCase();
-            card.style.display = name.includes(val) ? "" : "none";
-          });
+          currentPage = 1;
+          const filtered = allMembers.filter(m => m.name.toLowerCase().includes(val));
+          displayMembers(filtered);
         });
-      })
-      .catch(err => console.error("Error loading JSON:", err));
+      });
   </script>
 </body>
 </html>
