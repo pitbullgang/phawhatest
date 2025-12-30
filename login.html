@@ -66,15 +66,11 @@
 
         try {
             await signInWithEmailAndPassword(auth, email, passField);
+            alert("เข้าสู่ระบบสำเร็จ! กำลังไปที่หน้าแก้ไขโปรไฟล์...");
             
-            // แจ้งเตือนสำเร็จ
-            alert("เข้าสู่ระบบสำเร็จ! กำลังไปหน้าแก้ไขโปรไฟล์...");
-            
-            // วิธีแก้ปัญหาไม่ยอมเปลี่ยนหน้า: เพิ่มตัวเลขสุ่มหลังชื่อไฟล์เพื่อป้องกัน Cache
-            const targetPage = "edit-profile.html?v=" + Math.random();
-            
-            // บังคับเปลี่ยนหน้าด้วย URL เต็ม
-            window.location.href = targetPage;
+            // แก้ไขบรรทัดนี้ให้เป็นชื่อไฟล์ที่ถูกต้อง
+            // ห้ามพิมพ์คำว่า login ติดหน้าชื่อไฟล์
+            window.location.href = "edit-profile.html"; 
             
         } catch (error) {
             console.error("Login Error:", error.code);
