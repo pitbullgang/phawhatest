@@ -51,10 +51,13 @@
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
-            // ล็อกอินเสร็จปุ๊บ สั่งย้ายหน้าทันทีด้วย window.location.replace
-            // วิธีนี้จะไม่มีคำสั่งซ้อน และไม่มี Alert มาขวางให้เด้งทับกัน
+            // 1. สั่งล็อกอิน
             await signInWithEmailAndPassword(auth, email, passField);
-            window.location.replace("https://pitbullgang.github.io/phawhatest/edit-profile.html");
+            
+            // 2. ล็อกอินผ่านปุ๊บ สั่งย้ายหน้าทันที (ไม่ต้องมี Alert แจ้งเตือนสำเร็จมาขวาง)
+            // ใช้ URL เต็มเพื่อป้องกัน Path ผิดพลาด
+            window.location.href = "https://pitbullgang.github.io/phawhatest/edit-profile.html";
+            
         } catch (error) {
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
