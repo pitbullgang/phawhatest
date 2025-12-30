@@ -39,14 +39,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // ฟังก์ชันย้ายหน้าแบบตัดปัญหา Path ผิดพลาด
-    const forceGoToEdit = () => {
-        const url = window.location.href.split('login.html')[0] + "edit-profile.html";
-        window.location.replace(url);
+    // แก้ไขใหม่: บังคับ URL ไปที่ edit-profile.html โดยตรงแบบไม่เอาชื่อไฟล์เก่ามาผสม
+    const forceRedirect = () => {
+        const domain = "https://pitbullgang.github.io/phawhatest/";
+        window.location.href = domain + "edit-profile.html";
     };
 
     onAuthStateChanged(auth, (user) => {
-        if (user) { forceGoToEdit(); }
+        if (user) { forceRedirect(); }
     });
 
     document.getElementById('btnLogin').addEventListener('click', async () => {
@@ -63,7 +63,7 @@
         try {
             await signInWithEmailAndPassword(auth, email, passField);
             alert("เข้าสู่ระบบสำเร็จ!");
-            forceGoToEdit();
+            forceRedirect();
         } catch (error) {
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
