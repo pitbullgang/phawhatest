@@ -24,7 +24,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCvkv6CsElPFela5OdXSTG0P26spzdXuOE", 
@@ -39,6 +39,19 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // ฟังก์ชันช่วยเปลี่ยนหน้าแบบบังคับ
+    const goToEditPage = () => {
+        const target = "edit-profile.html";
+        window.location.replace(target); // ใช้ replace เพื่อไม่ให้กดย้อนกลับมาหน้า login ได้
+    };
+
+    // เช็คถ้าล็อกอินค้างไว้ให้เด้งไปเลย
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            goToEditPage();
+        }
+    });
+
     document.getElementById('btnLogin').addEventListener('click', async () => {
         const userField = document.getElementById('username').value.trim();
         const passField = document.getElementById('password').value.trim();
@@ -48,27 +61,14 @@
             return;
         }
 
-        // แปลงชื่อเป็นตัวเล็กเพื่อความแม่นยำ
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
             await signInWithEmailAndPassword(auth, email, passField);
-            console.log("Login Success!");
-            
-            // ใช้ URL แบบ Absolute เพื่อกันความผิดพลาดของ Path บน GitHub Pages
-            const targetPage = "edit-profile.html";
-            
-            // แจ้งเตือนและพยายามเปลี่ยนหน้า
-            alert("เข้าสู่ระบบสำเร็จ! กำลังไปที่หน้าแก้ไขโปรไฟล์...");
-            
-            // ลองใช้หลายวิธีเผื่อ Browser บางตัวบล็อก
-            window.location.href = targetPage;
-            setTimeout(() => {
-                window.location.assign(targetPage);
-            }, 500);
-
+            alert("เข้าสู่ระบบสำเร็จ! ระบบกำลังนำคุณไปหน้าแก้ไข...");
+            goToEditPage();
         } catch (error) {
-            console.error("Login Error:", error.code, error.message);
+            console.error("Login Error:", error.code);
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
     });
