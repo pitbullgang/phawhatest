@@ -1,1 +1,60 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHAWHA Login</title>
+    <style>
+        body { background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: #161616; padding: 40px; border-radius: 12px; border: 1px solid #ff4400; width: 300px; text-align: center; box-shadow: 0 10px 30px rgba(255, 68, 0, 0.2); }
+        h2 { margin-bottom: 25px; letter-spacing: 2px; color: #ff4400; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #333; background: #222; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; border-radius: 6px; border: none; background: #ff4400; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #cc3700; }
+    </style>
+</head>
+<body>
 
+<div class="login-card">
+    <h2>PHAWHA LOGIN</h2>
+    <input type="text" id="username" placeholder="ชื่อสมาชิก (เช่น ken)">
+    <input type="password" id="password" placeholder="รหัสผ่าน">
+    <button id="btnLogin">เข้าสู่ระบบสมาชิก</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // วาง firebaseConfig ของคุณตรงนี้
+    const firebaseConfig = {
+        apiKey: "AIzaSyCvkv6CsElPFela5OdXSTG0P26spzdXuOE", 
+        authDomain: "phawhalogin.firebaseapp.com",
+        projectId: "phawhalogin",
+        storageBucket: "phawhalogin.firebasestorage.app",
+        messagingSenderId: "502924655668",
+        appId: "1:502924655668:web:e120839a6adab245869e61",
+        measurementId: "G-2KBDHJ3Z3W"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('btnLogin').addEventListener('click', () => {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const email = `${user}@phawha.com`; // ระบบจะเติมชื่อโดเมนให้เองตามที่คุณตั้งไว้
+
+        signInWithEmailAndPassword(auth, email, pass)
+            .then((userCredential) => {
+                alert("เข้าสู่ระบบสำเร็จ! กำลังไปหน้าแก้ไขโปรไฟล์");
+                window.location.href = "edit-profile.html"; // หน้าที่เราจะทำในขั้นตอนถัดไป
+            })
+            .catch((error) => {
+                alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+            });
+    });
+</script>
+
+</body>
+</html>
