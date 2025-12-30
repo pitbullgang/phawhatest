@@ -24,7 +24,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyCvkv6CsElPFela5OdXSTG0P26spzdXuOE", 
@@ -39,18 +39,6 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // ฟังก์ชันย้ายหน้า (ตัด Alert ออกเพื่อให้มันเด้งไปเลย ไม่ต้องรอกด OK ซ้ำซ้อน)
-    const forceRedirect = () => {
-        window.location.replace("https://pitbullgang.github.io/phawhatest/edit-profile.html");
-    };
-
-    // เช็คสถานะ: ถ้าล็อกอินค้างไว้ให้ไปทันที ห้ามเด้ง Alert
-    onAuthStateChanged(auth, (user) => {
-        if (user) { 
-            forceRedirect(); 
-        }
-    });
-
     document.getElementById('btnLogin').addEventListener('click', async () => {
         const userField = document.getElementById('username').value.trim();
         const passField = document.getElementById('password').value.trim();
@@ -63,9 +51,10 @@
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
-            // ล็อกอินเสร็จปุ๊บ สั่งย้ายหน้าทันที ไม่ต้องมี alert("เข้าสู่ระบบสำเร็จ") มาขวาง
+            // ล็อกอินเสร็จปุ๊บ สั่งย้ายหน้าทันทีด้วย window.location.replace
+            // วิธีนี้จะไม่มีคำสั่งซ้อน และไม่มี Alert มาขวางให้เด้งทับกัน
             await signInWithEmailAndPassword(auth, email, passField);
-            forceRedirect();
+            window.location.replace("https://pitbullgang.github.io/phawhatest/edit-profile.html");
         } catch (error) {
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
