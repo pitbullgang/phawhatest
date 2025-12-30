@@ -66,8 +66,16 @@
 
         try {
             await signInWithEmailAndPassword(auth, email, passField);
-            alert("เข้าสู่ระบบสำเร็จ! ระบบกำลังนำคุณไปหน้าแก้ไข...");
-            goToEditPage();
+            
+            // แจ้งเตือนสำเร็จ
+            alert("เข้าสู่ระบบสำเร็จ! กำลังไปหน้าแก้ไขโปรไฟล์...");
+            
+            // วิธีแก้ปัญหาไม่ยอมเปลี่ยนหน้า: เพิ่มตัวเลขสุ่มหลังชื่อไฟล์เพื่อป้องกัน Cache
+            const targetPage = "edit-profile.html?v=" + Math.random();
+            
+            // บังคับเปลี่ยนหน้าด้วย URL เต็ม
+            window.location.href = targetPage;
+            
         } catch (error) {
             console.error("Login Error:", error.code);
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
