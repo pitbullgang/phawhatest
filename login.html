@@ -39,18 +39,14 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // ฟังก์ชันช่วยเปลี่ยนหน้าแบบระบุ URL เต็มเพื่อป้องกันความผิดพลาดบน GitHub Pages
-    const goToEditPage = () => {
-        const fullUrl = window.location.origin + window.location.pathname.replace('login.html', '') + 'edit-profile.html';
-        console.log("Redirecting to:", fullUrl);
-        window.location.href = fullUrl;
+    // ฟังก์ชันย้ายหน้าแบบตัดปัญหา Path ผิดพลาด
+    const forceGoToEdit = () => {
+        const url = window.location.href.split('login.html')[0] + "edit-profile.html";
+        window.location.replace(url);
     };
 
-    // เช็คสถานะการเข้าสู่ระบบ
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-            goToEditPage();
-        }
+        if (user) { forceGoToEdit(); }
     });
 
     document.getElementById('btnLogin').addEventListener('click', async () => {
@@ -66,18 +62,12 @@
 
         try {
             await signInWithEmailAndPassword(auth, email, passField);
-            alert("เข้าสู่ระบบสำเร็จ! กำลังไปที่หน้าแก้ไขโปรไฟล์...");
-            
-            // แก้ไขบรรทัดนี้ให้เป็นชื่อไฟล์ที่ถูกต้อง
-            // ห้ามพิมพ์คำว่า login ติดหน้าชื่อไฟล์
-            window.location.href = "edit-profile.html";
-            
+            alert("เข้าสู่ระบบสำเร็จ!");
+            forceGoToEdit();
         } catch (error) {
-            console.error("Login Error:", error.code);
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
     });
 </script>
-
 </body>
 </html>
