@@ -51,14 +51,15 @@
         const email = `${userField.toLowerCase()}@phawha.com`; 
 
         try {
-            // 1. สั่งล็อกอิน
+            // ล็อกอิน
             await signInWithEmailAndPassword(auth, email, passField);
             
-            // 2. ล็อกอินผ่านปุ๊บ สั่งย้ายหน้าทันที (ไม่ต้องมี Alert แจ้งเตือนสำเร็จมาขวาง)
-            // ใช้ URL เต็มเพื่อป้องกัน Path ผิดพลาด
-            window.location.href = "https://pitbullgang.github.io/phawhatest/edit-profile.html";
+            // ใช้ window.location.replace เพื่อล้างหน้าเก่าทิ้งไปเลย ป้องกันการเด้งกลับมาหน้า login
+            const targetUrl = "https://pitbullgang.github.io/phawhatest/edit-profile.html";
+            window.location.replace(targetUrl);
             
         } catch (error) {
+            console.error(error);
             alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
         }
     });
