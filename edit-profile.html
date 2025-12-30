@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHAWHA - Edit Profile</title>
+    <style>
+        body { background-color: #0b0b0b; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .edit-card { background: #161616; padding: 30px; border-radius: 12px; border: 1px solid #ff4400; width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(255, 68, 0, 0.2); }
+        h2 { color: #ff4400; margin-bottom: 20px; }
+        #profilePreview { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 2px solid #ff4400; margin-bottom: 15px; background: #222; }
+        .user-info { margin-bottom: 20px; font-size: 1.1em; color: #ccc; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #333; background: #222; color: white; box-sizing: border-box; }
+        .btn-save { width: 100%; padding: 12px; border-radius: 6px; border: none; background: #ff4400; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+        .btn-save:hover { background: #cc3700; }
+        .btn-logout { background: transparent; color: #666; border: none; cursor: pointer; text-decoration: underline; font-size: 0.9em; }
+    </style>
+</head>
+<body>
 
+<div class="edit-card">
+    <h2>EDIT PROFILE</h2>
+    <img id="profilePreview" src="https://via.placeholder.com/150" alt="Preview">
+    <div class="user-info" id="usernameDisplay">กำลังโหลด...</div>
+    
+    <input type="text" id="imgUrl" placeholder="วางลิงก์รูปโปรไฟล์ (URL)">
+    <button class="btn-save" id="btnSave">บันทึกข้อมูล</button>
+    <button class="btn-logout" id="btnLogout">ออกจากระบบ</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // --- วาง firebaseConfig ของคุณด้านล่างนี้ ---
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "phawhalogin.firebaseapp.com",
+        projectId: "phawhalogin",
+        storageBucket: "phawhalogin.firebasestorage.app",
+        messagingSenderId: "...",
+        appId: "...",
+        measurementId: "..."
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // 1. ตรวจสอบสถานะการ Login
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const username = user.email.split('@')[0];
+            document.getElementById('usernameDisplay').innerText = "สมาชิก: " + username;
+            
+            // ดึงรูปภาพปัจจุบันจาก Firestore
+            const docRef = doc(db, "users", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().profileImg) {
+                document.getElementById('profilePreview').src = docSnap.data().profileImg;
+                document.getElementById('imgUrl').value = docSnap.data().profileImg;
+            }
+        } else {
+            // ถ้าไม่ได้ Login ให้กลับไปหน้า login.html
+            window.location.href = "login.html";
+        }
+    });
+
+    // 2. ฟังก์ชันบันทึกข้อมูล
+    document.getElementById('btnSave').addEventListener('click', async () => {
+        const user = auth.currentUser;
+        const newImgUrl = document.getElementById('imgUrl').value;
+
+        if (!newImgUrl) {
+            alert("กรุณาใส่ลิงก์รูปภาพ!");
+            return;
+        }
+
+        try {
+            await setDoc(doc(db, "users", user.uid), {
+                profileImg: newImgUrl,
+                updatedAt: new Date()
+            }, { merge: true });
+            
+            document.getElementById('profilePreview').src = newImgUrl;
+            alert("บันทึกรูปโปรไฟล์สำเร็จ!");
+        } catch (error) {
+            console.error(error);
+            alert("เกิดข้อผิดพลาดในการบันทึก: " + error.message);
+        }
+    });
+
+    // 3. ฟังก์ชันออกจากระบบ
+    document.getElementById('btnLogout').addEventListener('click', () => {
+        signOut(auth).then(() => {
+            window.location.href = "login.html";
+        });
+    });
+</script>
+
+</body>
+</html>
